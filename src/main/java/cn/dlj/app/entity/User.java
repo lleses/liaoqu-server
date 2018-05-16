@@ -23,6 +23,8 @@ public class User {
 	private String signature;
 	/** 头像 */
 	private String headImg;
+	/** 锁密码 */
+	private String lockPwd;
 
 	/**
 	 * ID
@@ -148,6 +150,20 @@ public class User {
 	 */
 	public void setHeadImg(String headImg) {
 		this.headImg = headImg;
+	}
+
+	/**
+	 * 
+	 */
+	public String getLockPwd() {
+		return lockPwd;
+	}
+
+	/**
+	 * 
+	 */
+	public void setLockPwd(String lockPwd) {
+		this.lockPwd = lockPwd;
 	}
 
 }
