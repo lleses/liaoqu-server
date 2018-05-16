@@ -58,7 +58,5 @@
 	
 	<!-- 定时任务 -->
 	<task:annotation-driven />
-	<task:scheduled-tasks>
-	</task:scheduled-tasks>
 
 </beans>
