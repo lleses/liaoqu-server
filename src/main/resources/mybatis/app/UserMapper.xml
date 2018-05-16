@@ -16,6 +16,7 @@
 			phone = #{phone}, 
 			organization= #{organization}, 
 			signature= #{signature}, 
+			lockPwd= #{lockPwd}, 
 			headImg= #{headImg}
 		where id=#{id}
 	</update>
@@ -30,6 +31,7 @@
 				phone				as "phone",
 				organization		as "organization",
 				signature			as "signature",
+				lockPwd				as "lockPwd",
 				headImg				as "headImg"
 		from t_user
 		<where>
