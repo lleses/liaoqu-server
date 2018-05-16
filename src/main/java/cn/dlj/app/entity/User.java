@@ -1,34 +1,28 @@
 package cn.dlj.app.entity;
 
 /**
- * 用户
- * 
+ * 用户信息
  */
 public class User {
 
 	/** ID */
 	private Integer id;
-	/** 用户名 */
-	private String name;
-	/** 账号名称 **/
+	/** 账号 */
 	private String username;
 	/** 密码 */
 	private String pwd;
-
-	/** 所属部门ID */
-	private Integer depId;
-	/** 所属部门名称 */
-	private String depName;
-
-	/** 所属镇区ID **/
-	private Integer townId;
-	/** 所属镇区 */
-	private String townName;
-
-	/** 消防站ID **/
-	private Integer stationId;
-	/** 用户角色ID **/
-	private Integer roleId;
+	/** 名称 */
+	private String name;
+	/** 性别 */
+	private String sex;
+	/** 电话 */
+	private String phone;
+	/** 组织 */
+	private String organization;
+	/** 签名 */
+	private String signature;
+	/** 头像 */
+	private String headImg;
 
 	/**
 	 * ID
@@ -45,129 +39,115 @@ public class User {
 	}
 
 	/**
-	 * 用户名
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * 用户名
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * 账号名称
+	 * 
 	 */
 	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * 账号名称
+	 * 
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
-	 * 密码
+	 * 
 	 */
 	public String getPwd() {
 		return pwd;
 	}
 
 	/**
-	 * 密码
+	 * 
 	 */
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 
 	/**
-	 * 所属部门ID
+	 * 
 	 */
-	public Integer getDepId() {
-		return depId;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * 所属部门ID
+	 * 
 	 */
-	public void setDepId(Integer depId) {
-		this.depId = depId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * 所属部门名称
+	 * 
 	 */
-	public String getDepName() {
-		return depName;
+	public String getSex() {
+		return sex;
 	}
 
 	/**
-	 * 所属部门名称
+	 * 
 	 */
-	public void setDepName(String depName) {
-		this.depName = depName;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 	/**
-	 * 所属镇区ID
+	 * 
 	 */
-	public Integer getTownId() {
-		return townId;
+	public String getPhone() {
+		return phone;
 	}
 
 	/**
-	 * 所属镇区ID
+	 * 
 	 */
-	public void setTownId(Integer townId) {
-		this.townId = townId;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	/**
-	 * 所属镇区
+	 * 
 	 */
-	public String getTownName() {
-		return townName;
+	public String getOrganization() {
+		return organization;
 	}
 
 	/**
-	 * 所属镇区
+	 * 
 	 */
-	public void setTownName(String townName) {
-		this.townName = townName;
+	public void setOrganization(String organization) {
+		this.organization = organization;
 	}
 
 	/**
-	 * 消防站ID
+	 * 
 	 */
-	public Integer getStationId() {
-		return stationId;
+	public String getSignature() {
+		return signature;
 	}
 
 	/**
-	 * 消防站ID
+	 * 
 	 */
-	public void setStationId(Integer stationId) {
-		this.stationId = stationId;
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 	/**
-	 * 用户角色ID
+	 * 
 	 */
-	public Integer getRoleId() {
-		return roleId;
+	public String getHeadImg() {
+		return headImg;
 	}
 
 	/**
-	 * 用户角色ID
+	 * 
 	 */
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
 	}
 
 }
