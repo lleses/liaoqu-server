@@ -2,51 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.dlj.app.dao.UserDao">
 
-	<select id="get" resultType="cn.dlj.app.entity.User">
-		select
-				u.id 		    as "id",
-				u.name 		    as "name",
-				u.username 	    as "username",
-				u.password 	    as "pwd",
-				u.departmentId	as "depId",
-				u.townId	    as "townId",
-				dept.name		as "depName",
-				town.name       as "townName",
-				u.roleId        as "roleId"
-		from t_user u
-		left join t_department dept on dept.id = u.departmentId
-		left join t_town town on town.id = u.townId
-		<where>
-			u.username=#{username}
-		</where>
-	</select>
+	<insert id="add" parameterType="cn.dlj.app.entity.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user(username,pwd)
+		values(#{username},#{pwd})
+	</insert>
 	
-	<select id="getByNameAndPwd" resultType="cn.dlj.app.entity.User">
-		select
-				u.id 		    as "id",
-				u.name 		    as "name",
-				u.username 	    as "username",
-				u.password 	    as "pwd",
-				u.departmentId	as "depId",
-				u.townId	    as "townId",
-				dept.name		as "depName",
-				town.name       as "townName",
-				u.roleId        as "roleId"
-		from t_user u
-		left join t_department dept on dept.id = u.departmentId
-		left join t_town town on town.id = u.townId
-		<where>
-			u.username=#{username} and u.password=#{password}
-		</where>
-	</select>
+	<update id="update" parameterType="cn.dlj.app.entity.User" >
+		update t_user set
+			username= #{username},
+			pwd= #{pwd}, 
+			name= #{name}, 
+			sex= #{sex}, 
+			phone = #{phone}, 
+			organization= #{organization}, 
+			signature= #{signature}, 
+			headImg= #{headImg}
+		where id=#{id}
+	</update>
 	
-	<!-- 获取消防站ID -->
-	<select id="getStationId" resultType="java.lang.Integer">
+	<select id="getByUsername" resultType="cn.dlj.app.entity.User">
 		select
-				id    		as	"id"
-		from t_station
+				id 					as "id",
+				username 			as "username",
+				pwd 				as "pwd",
+				name 				as "name",
+				sex 				as "sex",
+				phone				as "phone",
+				organization		as "organization",
+				signature			as "signature",
+				headImg				as "headImg"
+		from t_user
 		<where>
-			townId=#{townId} and departmentId=#{departmentId}
+			username=#{username}
 		</where>
 	</select>
 	
