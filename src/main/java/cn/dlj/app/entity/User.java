@@ -13,8 +13,8 @@ public class User {
 	private String pwd;
 	/** 名称 */
 	private String name;
-	/** 性别 */
-	private String sex;
+	/** 性别(0:女 1:男) */
+	private Integer sex;
 	/** 电话 */
 	private String phone;
 	/** 组织 */
@@ -83,14 +83,14 @@ public class User {
 	/**
 	 * 
 	 */
-	public String getSex() {
+	public Integer getSex() {
 		return sex;
 	}
 
 	/**
 	 * 
 	 */
-	public void setSex(String sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 
