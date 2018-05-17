@@ -53,5 +53,10 @@ public class SmsUtils {
 		}
 
 	}
+	
+	
+	public static void main(String[] args) {
+		SmsUtils.sendSms("13416000672", "2222");
+	}
 
 }

@@ -1,5 +1,8 @@
 package cn.dlj.app.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,14 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	/** 主帐号 **/
+	public static String accountSid = "8a216da862b36cbc0162b898d7cf040e";
+	/** 令牌 **/
+	public static String authToken = "b2d86a6b0b5447a8894a522cba182cbc";
+	/** 应用ID **/
+	public static String appId = "8aaf070862fae1b501630b4bcc120840";
+	/** 膜版ID **/
+	public static String templateId = "246168";
 
 	/**
 	 * 检查账号是否存在
@@ -27,11 +38,15 @@ public class UserController {
 	@ResponseBody
 	public String checkUserName(HttpServletRequest request, String username) {
 		User user = userService.getByUsername(username);
+		Map<String, Object> map = new HashMap<String, Object>();
 		if (user == null) {
-			return "1";//账号可以注册
+			map.put("succ", "1");
+			map.put("msg", "账号可以注册");
 		} else {
-			return "2";//账号已经存在,不能注册
+			map.put("succ", "-1");
+			map.put("msg", "账号已经存在,不能注册");
 		}
+		return StringUtils.json(map);
 	}
 
 	/**
@@ -41,9 +56,11 @@ public class UserController {
 	@ResponseBody
 	public String sendSms(HttpServletRequest request, String phone) {
 		//生成6位数的验证码
-		String verificationCode = StringUtils.ranNum(6);
-		SmsUtils.sendSms(phone, verificationCode);
-		return verificationCode;
+		String code = StringUtils.ranNum(6);
+		SmsUtils.sendSms(phone, code);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", code);
+		return StringUtils.json(map);
 	}
 
 	/**
@@ -52,15 +69,19 @@ public class UserController {
 	@RequestMapping("registered")
 	@ResponseBody
 	public String registered(HttpServletRequest request, String username, String pwd) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getByUsername(username);
 		if (user != null) {
-			return "-1";//账号已经存在,不能注册
+			map.put("succ", "-1");
+			map.put("msg", "账号已经存在,不能注册");
+			return StringUtils.json(map);
 		}
 		user = new User();
 		user.setUsername(username);
 		user.setPwd(Tool.md5Encode(pwd));
 		userService.add(user);
-		return "1";
+		map.put("succ", "1");
+		return StringUtils.json(map);
 	}
 
 	/**
@@ -69,14 +90,20 @@ public class UserController {
 	@RequestMapping("login")
 	@ResponseBody
 	public String login(HttpServletRequest request, String username, String pwd) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getByUsername(username);
 		if (user == null) {
-			return "-1";//账号不存在
+			map.put("succ", "-2");
+			map.put("msg", "账号不存在");
+			return StringUtils.json(map);
 		}
 		if (!user.getPwd().equals(Tool.md5Encode(pwd))) {
-			return "-1";//密码不正确
+			map.put("succ", "-1");
+			map.put("msg", "密码不正确");
+			return StringUtils.json(map);
 		}
-		return "1";//跳转内容页
+		map.put("succ", "1");
+		return StringUtils.json(map);//跳转内容页
 	}
 
 }
