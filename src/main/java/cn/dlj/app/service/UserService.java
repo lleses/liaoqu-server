@@ -43,9 +43,9 @@ public class UserService {
 		return null;
 	}
 
-	public List<User> getByUsernameOrPhone(String content) {
-		if (content != null) {
-			List<User> user = dao.getByUsernameOrPhone(content);
+	public List<User> getByUsernameOrPhone(String content, Integer userId) {
+		if (content != null && userId != null) {
+			List<User> user = dao.getByUsernameOrPhone(content, userId);
 			return user;
 		}
 		return null;

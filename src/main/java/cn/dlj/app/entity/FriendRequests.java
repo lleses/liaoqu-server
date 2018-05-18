@@ -61,14 +61,14 @@ public class FriendRequests {
 	}
 
 	/**
-	 * 
+	 * 状态(0:待处理 1:已添加)
 	 */
 	public Integer getStatus() {
 		return status;
 	}
 
 	/**
-	 * 
+	 * 状态(0:待处理 1:已添加)
 	 */
 	public void setStatus(Integer status) {
 		this.status = status;

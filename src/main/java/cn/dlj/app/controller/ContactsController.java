@@ -1,5 +1,6 @@
 package cn.dlj.app.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.dlj.app.entity.FriendRequests;
 import cn.dlj.app.entity.User;
+import cn.dlj.app.service.FriendRequestsService;
 import cn.dlj.app.service.UserService;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
@@ -28,6 +31,8 @@ public class ContactsController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FriendRequestsService friendRequestsService;
 
 	/**
 	 * 搜索好友
@@ -37,13 +42,36 @@ public class ContactsController {
 	public String searchFriend(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String content = ParamUtils.getStr(request, "content");//账号or手机号码
-		List<User> list = userService.getByUsernameOrPhone(content);
+		Integer userId = ParamUtils.getInt(request, "userId");
+		List<User> list = userService.getByUsernameOrPhone(content, userId);
 		if (list == null || list.isEmpty()) {
 			map.put("succ", "-1");
 			return StringUtils.json(map);
 		}
 		map.put("succ", "1");
 		map.put("data", list);
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 好友申请
+	 */
+	@RequestMapping("friendRequests")
+	@ResponseBody
+	public String friendRequests(HttpServletRequest request) {
+		Integer userId = ParamUtils.getInt(request, "userId");
+		Integer friendId = ParamUtils.getInt(request, "friendId");
+		FriendRequests friendRequests = friendRequestsService.getByUserIdAndFriendId(userId, friendId);
+		if (userId != null && friendId != null && friendRequests == null) {
+			friendRequests = new FriendRequests();
+			friendRequests.setUserId(userId);
+			friendRequests.setFriendId(friendId);
+			friendRequests.setStatus(0);
+			friendRequests.setAddTime(new Date());
+			friendRequestsService.add(friendRequests);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
 }

@@ -16,5 +16,5 @@ public interface UserDao {
 
 	User getByUsername(@Param("username") String username);
 
-	List<User> getByUsernameOrPhone(@Param("content") String content);
+	List<User> getByUsernameOrPhone(@Param("content") String content, @Param("userId") Integer userId);
 }

@@ -86,6 +86,7 @@ public class UserController {
 			return StringUtils.json(map);
 		}
 		map.put("succ", "1");
+		map.put("userId", user.getId());
 		return StringUtils.json(map);//跳转内容页
 	}
 
