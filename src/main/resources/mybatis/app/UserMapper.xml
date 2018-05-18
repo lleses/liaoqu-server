@@ -53,7 +53,7 @@
 				headImg				as "headImg"
 		from t_user
 		<where>
-			username=#{content} or phone=#{content}
+			id!=#{userId} and (username=#{content} or phone=#{content} )
 		</where>
 	</select>
 	

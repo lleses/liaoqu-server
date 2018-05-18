@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dlj.app.dao.FriendRequestsDao">
+
+	<insert id="add" parameterType="cn.dlj.app.entity.FriendRequests" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_friend_requests(userId,friendId,status,addTime)
+		values(#{userId},#{friendId},#{status},#{addTime})
+	</insert>
+	
+	<select id="getByUserIdAndFriendId" resultType="cn.dlj.app.entity.FriendRequests">
+		select
+				id 					as "id",
+				userId 			as "userId",
+				friendId 				as "friendId",
+				status 				as "status",
+				addTime 				as "addTime"
+		from t_friend_requests
+		<where>
+			userId=#{userId} and friendId=#{friendId}
+		</where>
+	</select>
+	
+</mapper>
