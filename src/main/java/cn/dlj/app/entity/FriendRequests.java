@@ -18,6 +18,9 @@ public class FriendRequests {
 	/** 申请时间 **/
 	private Date addTime;
 
+	/** 好友名称 **/
+	transient private String friendName;
+
 	/**
 	 * 
 	 */
@@ -86,6 +89,20 @@ public class FriendRequests {
 	 */
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
+	}
+
+	/**
+	 * 好友名称
+	 */
+	public String getFriendName() {
+		return friendName;
+	}
+
+	/**
+	 * 好友名称
+	 */
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
 	}
 
 }

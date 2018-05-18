@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.FriendRequests;
 import cn.dlj.app.entity.User;
+import cn.dlj.app.entity.UserFriendRelation;
 import cn.dlj.app.service.FriendRequestsService;
 import cn.dlj.app.service.UserService;
 import cn.dlj.utils.ParamUtils;
@@ -74,4 +75,47 @@ public class ContactsController {
 		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
+
+	/**
+	 * 好友申请列表
+	 */
+	@RequestMapping("friendRequestsList")
+	@ResponseBody
+	public String friendRequestsList(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		List<FriendRequests> list = friendRequestsService.getByUserId(userId);
+		if (list.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+		map.put("succ", "1");
+		map.put("data", list);
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 添加好友
+	 */
+	@RequestMapping("addFriend")
+	@ResponseBody
+	public String addFriend(HttpServletRequest request) {
+		Integer userId = ParamUtils.getInt(request, "userId");
+		Integer friendId = ParamUtils.getInt(request, "friendId");
+		Integer friendRequestsId = ParamUtils.getInt(request, "friendRequestsId");
+		friendRequestsService.update(friendRequestsId, 1);
+
+		UserFriendRelation userFriendRelation = friendRequestsService.getUserFriendRelation(userId, friendId);
+		if (userFriendRelation == null) {
+			userFriendRelation = new UserFriendRelation();
+			userFriendRelation.setUserId(userId);
+			userFriendRelation.setFriendId(friendId);
+			friendRequestsService.addUserFriend(userFriendRelation);
+		}
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("succ", "1");
+		return StringUtils.json(map);
+	}
+
 }
