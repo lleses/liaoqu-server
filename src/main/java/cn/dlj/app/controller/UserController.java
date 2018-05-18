@@ -47,6 +47,7 @@ public class UserController {
 		String phone = ParamUtils.getStr(request, "phone");
 		String username = ParamUtils.getStr(request, "username");
 		String pwd = ParamUtils.getStr(request, "pwd");
+		String name = ParamUtils.getStr(request, "name");
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getByUsername(username);
 		if (user != null) {
@@ -58,6 +59,7 @@ public class UserController {
 		user.setUsername(username);
 		user.setPwd(Tool.md5Encode(pwd));
 		user.setPhone(phone);
+		user.setName(name);
 		userService.add(user);
 		map.put("succ", "1");
 		return StringUtils.json(map);

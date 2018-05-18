@@ -1,5 +1,7 @@
 package cn.dlj.app.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,14 @@ public class UserService {
 	public User getByUsername(String username) {
 		if (username != null) {
 			User user = dao.getByUsername(username);
+			return user;
+		}
+		return null;
+	}
+
+	public List<User> getByUsernameOrPhone(String content) {
+		if (content != null) {
+			List<User> user = dao.getByUsernameOrPhone(content);
 			return user;
 		}
 		return null;

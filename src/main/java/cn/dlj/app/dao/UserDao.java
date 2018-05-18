@@ -1,5 +1,7 @@
 package cn.dlj.app.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import cn.dlj.app.entity.User;
@@ -13,4 +15,6 @@ public interface UserDao {
 	void update(User user);
 
 	User getByUsername(@Param("username") String username);
+
+	List<User> getByUsernameOrPhone(@Param("content") String content);
 }
