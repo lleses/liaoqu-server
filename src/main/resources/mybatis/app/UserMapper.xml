@@ -3,8 +3,8 @@
 <mapper namespace="cn.dlj.app.dao.UserDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_user(username,pwd)
-		values(#{username},#{pwd})
+		insert into t_user(username,pwd,phone,name)
+		values(#{username},#{pwd},#{phone},#{name})
 	</insert>
 	
 	<update id="update" parameterType="cn.dlj.app.entity.User" >
@@ -36,6 +36,24 @@
 		from t_user
 		<where>
 			username=#{username}
+		</where>
+	</select>
+	
+	<select id="getByUsernameOrPhone" resultType="cn.dlj.app.entity.User">
+		select
+				id 					as "id",
+				username 			as "username",
+				pwd 				as "pwd",
+				name 				as "name",
+				sex 				as "sex",
+				phone				as "phone",
+				organization		as "organization",
+				signature			as "signature",
+				lockPwd				as "lockPwd",
+				headImg				as "headImg"
+		from t_user
+		<where>
+			username=#{content} or phone=#{content}
 		</where>
 	</select>
 	
