@@ -7,16 +7,52 @@
 		values(#{userId},#{friendId},#{status},#{addTime})
 	</insert>
 	
+	<insert id="addUserFriend" parameterType="cn.dlj.app.entity.UserFriendRelation" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_user_friend_relation(userId,friendId)
+		values(#{userId},#{friendId})
+	</insert>
+	
+	<update id="update" >
+		update t_friend_requests set
+			status= #{status}
+		where id=#{id}
+	</update>
+	
+	<select id="getUserFriendRelation" resultType="cn.dlj.app.entity.UserFriendRelation">
+		select
+				id 					as "id",
+				userId 				as "userId",
+				friendId 			as "friendId"
+		from t_user_friend_relation
+		<where>
+			userId=#{userId} and friendId=#{friendId}
+		</where>
+	</select>
+	
 	<select id="getByUserIdAndFriendId" resultType="cn.dlj.app.entity.FriendRequests">
 		select
 				id 					as "id",
-				userId 			as "userId",
-				friendId 				as "friendId",
+				userId 				as "userId",
+				friendId 			as "friendId",
 				status 				as "status",
-				addTime 				as "addTime"
+				addTime 			as "addTime"
 		from t_friend_requests
 		<where>
 			userId=#{userId} and friendId=#{friendId}
+		</where>
+	</select>
+	
+	<select id="getByUserId" resultType="cn.dlj.app.entity.FriendRequests">
+		select
+				u.id 				as "id",
+				f.userId 			as "userId",
+				f.friendId 			as "friendId",
+				u.name 				as "friendName",
+				f.status 			as "status"
+		from t_friend_requests f
+		left join t_user u on u.id=f.friendId
+		<where>
+			f.userId=#{userId} order by addTime desc
 		</where>
 	</select>
 	
