@@ -1,5 +1,6 @@
 package cn.dlj.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,13 @@ public class UserService {
 			return user;
 		}
 		return null;
+	}
+
+	public List<User> getFriends(Integer userId) {
+		List<User> user = new ArrayList<User>();
+		if (userId != null) {
+			user = dao.getFriends(userId);
+		}
+		return user;
 	}
 }

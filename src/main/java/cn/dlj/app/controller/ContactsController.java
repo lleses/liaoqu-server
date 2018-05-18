@@ -118,4 +118,22 @@ public class ContactsController {
 		return StringUtils.json(map);
 	}
 
+	/**
+	 * 好友列表
+	 */
+	@RequestMapping("friendList")
+	@ResponseBody
+	public String friendList(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		List<User> friends = userService.getFriends(userId);
+		if (friends.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+		map.put("succ", "1");
+		map.put("data", friends);
+		return StringUtils.json(map);
+	}
+
 }

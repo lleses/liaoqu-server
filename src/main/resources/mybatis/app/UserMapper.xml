@@ -57,4 +57,23 @@
 		</where>
 	</select>
 	
+	<select id="getFriends" resultType="cn.dlj.app.entity.User">
+		select
+				u.id 					as "id",
+				u.username 				as "username",
+				u.pwd 					as "pwd",
+				u.name 					as "name",
+				u.sex 					as "sex",
+				u.phone					as "phone",
+				u.organization			as "organization",
+				u.signature				as "signature",
+				u.lockPwd				as "lockPwd",
+				u.headImg				as "headImg"
+		from t_user_friend_relation f
+		left join t_user u on f.friendId = u.id
+		<where>
+			f.userId=#{userId}
+		</where>
+	</select>
+	
 </mapper>
