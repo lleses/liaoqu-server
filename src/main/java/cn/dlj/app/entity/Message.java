@@ -1,5 +1,6 @@
 package cn.dlj.app.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -22,6 +23,18 @@ public class Message {
 	/** 创建时间 **/
 	private Date addTime;
 
+	/**
+	 * 
+	 */
+	public String getAddTimeStr() {
+		String format = "";
+		if (addTime != null) {
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			format = simple.format(addTime);
+		}
+		return format;
+	}
+	
 	/**
 	 * 
 	 */

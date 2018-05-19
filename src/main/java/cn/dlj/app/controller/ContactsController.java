@@ -62,11 +62,11 @@ public class ContactsController {
 	public String friendRequests(HttpServletRequest request) {
 		Integer userId = ParamUtils.getInt(request, "userId");
 		Integer friendId = ParamUtils.getInt(request, "friendId");
-		FriendRequests friendRequests = friendRequestsService.getByUserIdAndFriendId(userId, friendId);
+		FriendRequests friendRequests = friendRequestsService.getByUserIdAndFriendId(friendId, userId);
 		if (userId != null && friendId != null && friendRequests == null) {
 			friendRequests = new FriendRequests();
-			friendRequests.setUserId(userId);
-			friendRequests.setFriendId(friendId);
+			friendRequests.setUserId(friendId);
+			friendRequests.setFriendId(userId);
 			friendRequests.setStatus(0);
 			friendRequests.setAddTime(new Date());
 			friendRequestsService.add(friendRequests);
@@ -111,6 +111,13 @@ public class ContactsController {
 			userFriendRelation.setUserId(userId);
 			userFriendRelation.setFriendId(friendId);
 			friendRequestsService.addUserFriend(userFriendRelation);
+		}
+		UserFriendRelation userFriendRelation2 = friendRequestsService.getUserFriendRelation(friendId, userId);
+		if (userFriendRelation2 == null) {
+			userFriendRelation2 = new UserFriendRelation();
+			userFriendRelation2.setUserId(friendId);
+			userFriendRelation2.setFriendId(userId);
+			friendRequestsService.addUserFriend(userFriendRelation2);
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
