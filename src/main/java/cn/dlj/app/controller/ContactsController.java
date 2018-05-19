@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.FriendRequests;
+import cn.dlj.app.entity.MessageList;
 import cn.dlj.app.entity.User;
 import cn.dlj.app.entity.UserFriendRelation;
 import cn.dlj.app.service.FriendRequestsService;
+import cn.dlj.app.service.MessageService;
 import cn.dlj.app.service.UserService;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
@@ -34,6 +36,8 @@ public class ContactsController {
 	private UserService userService;
 	@Autowired
 	private FriendRequestsService friendRequestsService;
+	@Autowired
+	private MessageService messageService;
 
 	/**
 	 * 搜索好友
@@ -140,6 +144,16 @@ public class ContactsController {
 		}
 		map.put("succ", "1");
 		map.put("data", friends);
+
+		//查询统计总数
+		int total = 0;
+		for (User friend : friends) {
+			MessageList msgList = messageService.getMsgList(userId, friend.getId());
+			if(msgList!=null){
+				total = total + msgList.getNum();
+			}
+		}
+		map.put("total", total);
 		return StringUtils.json(map);
 	}
 

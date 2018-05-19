@@ -21,6 +21,8 @@ public interface MessageDao {
 
 	MessageList getMsgList(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
 
+	List<MessageList> getMsgListByUserId(@Param("userId") Integer userId);
+
 	void delMsgList(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
 
 }

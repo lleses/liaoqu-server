@@ -62,6 +62,14 @@ public class MessageService {
 		return null;
 	}
 
+	public List<MessageList> getMsgListByUserId(Integer userId) {
+		List<MessageList> list = new ArrayList<MessageList>();
+		if (userId != null) {
+			list = dao.getMsgListByUserId(userId);
+		}
+		return list;
+	}
+
 	public void delMsgList(Integer userId, Integer friendId) {
 		if (userId != null && friendId != null) {
 			dao.delMsgList(userId, friendId);

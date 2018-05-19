@@ -123,4 +123,32 @@ public class MsgController {
 		return StringUtils.json(map);
 	}
 
+	/**
+	 * 好友消息列表
+	 */
+	@RequestMapping("friendMsgList")
+	@ResponseBody
+	public String friendMsgList(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		List<MessageList> list = messageService.getMsgListByUserId(userId);
+		if (list.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+
+		//查询统计总数
+		int total = 0;
+		for (MessageList msgList : list) {
+			if (msgList != null) {
+				total = total + msgList.getNum();
+			}
+		}
+
+		map.put("succ", "1");
+		map.put("data", list);
+		map.put("total", total);
+		return StringUtils.json(map);
+	}
+
 }

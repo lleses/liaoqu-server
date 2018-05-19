@@ -1,5 +1,6 @@
 package cn.dlj.app.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,6 +20,21 @@ public class MessageList {
 	private Date lastTime;
 	/** 内容 **/
 	private String content;
+
+	/** 好友名称 **/
+	transient private String friendName;
+
+	/**
+	 * 
+	 */
+	public String getLastTimeStr() {
+		String format = "";
+		if (lastTime != null) {
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			format = simple.format(lastTime);
+		}
+		return format;
+	}
 
 	/**
 	 * 
@@ -102,6 +118,20 @@ public class MessageList {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	/**
+	 * 
+	 */
+	public String getFriendName() {
+		return friendName;
+	}
+
+	/**
+	 * 
+	 */
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
 	}
 
 }
