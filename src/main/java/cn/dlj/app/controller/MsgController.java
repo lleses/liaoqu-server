@@ -43,6 +43,14 @@ public class MsgController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("succ", "1");
 		map.put("data", list);
+
+		MessageList msgList = messageService.getMsgList(userId, friendId);
+		if (msgList != null) {
+			msgList.setLastTime(new Date());
+			msgList.setNum(0);
+			messageService.updateList(msgList);
+		}
+
 		return StringUtils.json(map);
 	}
 
@@ -84,12 +92,12 @@ public class MsgController {
 			msgList.setFriendId(friendId);
 			msgList.setContent(content);
 			msgList.setLastTime(new Date());
-			msgList.setNum(1);
+			msgList.setNum(0);
 			messageService.addList(msgList);
 		} else {
 			msgList.setContent(content);
 			msgList.setLastTime(new Date());
-			msgList.setNum(msgList.getNum() + 1);
+			msgList.setNum(0);
 			messageService.updateList(msgList);
 		}
 
@@ -106,7 +114,7 @@ public class MsgController {
 		} else {
 			msgList2.setContent(content);
 			msgList2.setLastTime(new Date());
-			msgList2.setNum(msgList.getNum() + 1);
+			msgList2.setNum(msgList2.getNum() + 1);
 			messageService.updateList(msgList2);
 		}
 
