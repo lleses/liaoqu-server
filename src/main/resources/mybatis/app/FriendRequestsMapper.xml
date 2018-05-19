@@ -52,8 +52,9 @@
 		from t_friend_requests f
 		left join t_user u on u.id=f.friendId
 		<where>
-			f.userId=#{userId} order by addTime desc
+			f.userId=#{userId}
 		</where>
+		order by addTime desc
 	</select>
 	
 </mapper>

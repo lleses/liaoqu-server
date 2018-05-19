@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dlj.app.dao.MessageDao">
+
+	<insert id="add" parameterType="cn.dlj.app.entity.Message" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_message(userId,friendId,content,type,addTime,contentType)
+		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType})
+	</insert>
+	
+	<insert id="addList" parameterType="cn.dlj.app.entity.MessageList" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_message_list(userId,friendId,num,lastTime,content)
+		values(#{userId},#{friendId},#{num},#{lastTime},#{content})
+	</insert>
+	
+	<update id="updateList" parameterType="cn.dlj.app.entity.MessageList" >
+		update t_message_list set
+			num= #{num},
+			lastTime= #{lastTime}, 
+			content= #{content} 
+		where userId=#{userId} and friendId=#{friendId}
+	</update>
+	
+	<select id="getMsg" resultType="cn.dlj.app.entity.Message">
+		select
+				id 					as "id",
+				userId 				as "userId",
+				friendId 			as "friendId",
+				content 			as "content",
+				type 				as "type",
+				contentType 		as "contentType",
+				addTime				as "addTime"
+		from t_message
+		<where>
+			userId=#{userId} and friendId=#{friendId}
+		</where>
+		order by addTime asc
+	</select>
+	
+	<select id="getMsgList" resultType="cn.dlj.app.entity.MessageList">
+		select
+				id 					as "id",
+				userId 				as "userId",
+				friendId 			as "friendId",
+				num 				as "num",
+				lastTime 			as "lastTime",
+				content				as "content"
+		from t_message_list
+		<where>
+			userId=#{userId} and friendId=#{friendId}
+		</where>
+		order by lastTime asc
+	</select>
+	
+	<delete id="delMsgList">
+		delete from t_message_list where userId=#{userId} and friendId=#{friendId}
+	</delete>
+	
+</mapper>
