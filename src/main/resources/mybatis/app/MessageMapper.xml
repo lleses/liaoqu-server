@@ -51,6 +51,23 @@
 		order by lastTime asc
 	</select>
 	
+	<select id="getMsgListByUserId" resultType="cn.dlj.app.entity.MessageList">
+		select
+				m.id 					as "id",
+				m.userId 				as "userId",
+				m.friendId 				as "friendId",
+				m.num 					as "num",
+				m.lastTime 				as "lastTime",
+				m.content				as "content",
+				u.name					as "friendName"
+		from t_message_list m
+		left join t_user u on u.id = m.friendId
+		<where>
+			m.userId=#{userId}
+		</where>
+		order by m.lastTime asc
+	</select>
+	
 	<delete id="delMsgList">
 		delete from t_message_list where userId=#{userId} and friendId=#{friendId}
 	</delete>
