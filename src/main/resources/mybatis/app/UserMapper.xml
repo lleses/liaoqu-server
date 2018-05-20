@@ -26,6 +26,12 @@
 		where id=#{id}
 	</update>
 	
+	<update id="updateLock" parameterType="cn.dlj.app.entity.User" >
+		update t_user set
+			lockPwd= #{lockPwd}
+		where id=#{id}
+	</update>
+	
 	<select id="getByUsername" resultType="cn.dlj.app.entity.User">
 		select
 				id 					as "id",
@@ -41,6 +47,24 @@
 		from t_user
 		<where>
 			username=#{username}
+		</where>
+	</select>
+	
+	<select id="getById" resultType="cn.dlj.app.entity.User">
+		select
+				id 					as "id",
+				username 			as "username",
+				pwd 				as "pwd",
+				name 				as "name",
+				sex 				as "sex",
+				phone				as "phone",
+				organization		as "organization",
+				signature			as "signature",
+				lockPwd				as "lockPwd",
+				headImg				as "headImg"
+		from t_user
+		<where>
+			id=#{id}
 		</where>
 	</select>
 	
