@@ -60,8 +60,13 @@ public class UserController {
 		user.setPwd(Tool.md5Encode(pwd));
 		user.setPhone(phone);
 		user.setName(name);
-		userService.add(user);
+		Integer userId = userService.add(user);
+		user.setId(userId);
 		map.put("succ", "1");
+		map.put("userId", userId);
+		map.put("username", user.getUsername());
+		map.put("name", user.getName());
+		map.put("phone", user.getPhone());
 		return StringUtils.json(map);
 	}
 
@@ -87,6 +92,9 @@ public class UserController {
 		}
 		map.put("succ", "1");
 		map.put("userId", user.getId());
+		map.put("username", user.getUsername());
+		map.put("name", user.getName());
+		map.put("phone", user.getPhone());
 		return StringUtils.json(map);//跳转内容页
 	}
 
