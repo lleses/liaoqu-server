@@ -149,11 +149,18 @@ public class ContactsController {
 		int total = 0;
 		for (User friend : friends) {
 			MessageList msgList = messageService.getMsgList(userId, friend.getId());
-			if(msgList!=null){
+			if (msgList != null) {
 				total = total + msgList.getNum();
 			}
 		}
 		map.put("total", total);
+
+		User user = userService.getById(userId);
+		if (user == null) {
+			map.put("lock", "-1");
+		} else {
+			map.put("lock", user.getLockPwd());
+		}
 		return StringUtils.json(map);
 	}
 

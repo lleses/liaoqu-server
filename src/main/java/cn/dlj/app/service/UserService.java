@@ -38,9 +38,24 @@ public class UserService {
 		}
 	}
 
+	@Transactional
+	public void updateLock(Integer id, String lockPwd) {
+		if (id != null && lockPwd != null) {
+			dao.updateLock(id, lockPwd);
+		}
+	}
+
 	public User getByUsername(String username) {
 		if (username != null) {
 			User user = dao.getByUsername(username);
+			return user;
+		}
+		return null;
+	}
+
+	public User getById(Integer id) {
+		if (id != null) {
+			User user = dao.getById(id);
 			return user;
 		}
 		return null;

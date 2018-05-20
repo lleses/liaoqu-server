@@ -95,7 +95,21 @@ public class UserController {
 		map.put("username", user.getUsername());
 		map.put("name", user.getName());
 		map.put("phone", user.getPhone());
+
+		userService.updateLock(user.getId(), "-1");
 		return StringUtils.json(map);//跳转内容页
 	}
 
+	/**
+	 * 解锁
+	 */
+	@RequestMapping("unlock")
+	@ResponseBody
+	public String unlock(HttpServletRequest request) {
+		Integer userId = ParamUtils.getInt(request, "userId");
+		userService.updateLock(userId, "1");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("succ", "1");
+		return StringUtils.json(map);
+	}
 }

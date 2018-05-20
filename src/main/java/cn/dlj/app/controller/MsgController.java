@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.Message;
 import cn.dlj.app.entity.MessageList;
+import cn.dlj.app.entity.User;
 import cn.dlj.app.service.MessageService;
+import cn.dlj.app.service.UserService;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
 
@@ -30,6 +32,8 @@ public class MsgController {
 
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 获取好友信息记录
@@ -148,6 +152,13 @@ public class MsgController {
 		map.put("succ", "1");
 		map.put("data", list);
 		map.put("total", total);
+
+		User user = userService.getById(userId);
+		if (user == null) {
+			map.put("lock", "-1");
+		} else {
+			map.put("lock", user.getLockPwd());
+		}
 		return StringUtils.json(map);
 	}
 
