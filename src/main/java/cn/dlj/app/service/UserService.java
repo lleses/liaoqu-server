@@ -23,6 +23,7 @@ public class UserService {
 	@Transactional
 	public Integer add(User user) {
 		dao.add(user);
+		dao.add2(user);
 		if (user != null && user.getId() != null) {
 			return user.getId();
 		}
