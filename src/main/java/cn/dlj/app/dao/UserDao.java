@@ -11,6 +11,7 @@ import cn.dlj.utils.MyBatisDao;
 public interface UserDao {
 
 	void add(User user);
+	void add2(User user);
 
 	void update(User user);
 
