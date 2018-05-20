@@ -7,6 +7,11 @@
 		values(#{username},#{pwd},#{phone},#{name})
 	</insert>
 	
+	<insert id="add2" parameterType="cn.dlj.app.entity.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into ot_user(UE_account,UE_password,UE_secpwd,UE_phone,UE_accName,UE_level,rqb,lqb,UE_status,levelname)
+		values(#{username},#{pwd},#{pwd},#{phone},'admin',0,0,2999,0,'普通会员')
+	</insert>
+	
 	<update id="update" parameterType="cn.dlj.app.entity.User" >
 		update t_user set
 			username= #{username},
