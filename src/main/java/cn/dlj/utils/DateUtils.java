@@ -19,6 +19,8 @@ public class DateUtils {
 
 	/** 时间格式yyyyMMddHHmmssSSS(17位) */
 	public static final DateFormat DF_FULL = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+	/** 日期格式yyyy-MM-dd */
+	public static final DateFormat DF_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * 获取指定时间的下一天

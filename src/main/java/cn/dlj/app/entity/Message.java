@@ -16,12 +16,14 @@ public class Message {
 	private Integer friendId;
 	/** 内容 **/
 	private String content;
-	/** 接收类型(1:我发出的 2:我收到的 ) **/
+	/** 接收类型(1:我发出的 2:我收到的 )备注(好像没用，准备删除) **/
 	private Integer type;
 	/** 内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 ) **/
 	private Integer contentType;
 	/** 创建时间 **/
 	private Date addTime;
+	/** 状态(1:未处理 2:已处理) **/
+	private Integer status;
 
 	/**
 	 * 
@@ -34,7 +36,7 @@ public class Message {
 		}
 		return format;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -131,6 +133,20 @@ public class Message {
 	 */
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
+	}
+
+	/**
+	 * 状态(1:未处理 2:已处理)
+	 */
+	public Integer getStatus() {
+		return status;
+	}
+
+	/**
+	 * 状态(1:未处理 2:已处理)
+	 */
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }

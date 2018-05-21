@@ -36,18 +36,22 @@ public class MsgController {
 	private UserService userService;
 
 	/**
-	 * 获取好友信息记录
+	 * 加载新的好友聊天记录
 	 */
-	@RequestMapping("getFriendMsg")
+	@RequestMapping("loadFriendNewMsg")
 	@ResponseBody
-	public String getFriendMsg(HttpServletRequest request) {
+	public String loadFriendNewMsg(HttpServletRequest request) {
 		Integer userId = ParamUtils.getInt(request, "userId");
 		Integer friendId = ParamUtils.getInt(request, "friendId");
-		List<Message> list = messageService.getMsg(userId, friendId);
+		List<Message> list = messageService.getMsg(userId, friendId, 1);
+		for (Message message : list) {
+			messageService.update(message.getId(), 2);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("succ", "1");
 		map.put("data", list);
 
+		//TODO
 		MessageList msgList = messageService.getMsgList(userId, friendId);
 		if (msgList != null) {
 			msgList.setLastTime(new Date());
@@ -68,58 +72,35 @@ public class MsgController {
 		Integer friendId = ParamUtils.getInt(request, "friendId");
 		String content = ParamUtils.getStr(request, "content");
 		Integer contentType = 1;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 )
+		Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
 
-		//我发出的信息
+		//好友收到的信息
 		Message message = new Message();
-		message.setUserId(userId);
-		message.setFriendId(friendId);
+		message.setUserId(friendId);
+		message.setFriendId(userId);
 		message.setContent(content);
-		message.setType(1);//接收类型(1:我发出的 2:我收到的 )
-		message.setAddTime(new Date());
+		message.setType(2);//接收类型(1:我发出的 2:我收到的 )
+		message.setAddTime(addTime);
 		message.setContentType(contentType);
+		message.setStatus(1);
 		messageService.add(message);
-		//我收到的信息
-		Message message2 = new Message();
-		message2.setUserId(friendId);
-		message2.setFriendId(userId);
-		message2.setContent(content);
-		message2.setType(2);//接收类型(1:我发出的 2:我收到的 )
-		message2.setAddTime(new Date());
-		message2.setContentType(contentType);
-		messageService.add(message2);
 
-		//我发出的
-		MessageList msgList = messageService.getMsgList(userId, friendId);
+		//TODO
+		//好友收到的
+		MessageList msgList = messageService.getMsgList(friendId, userId);
 		if (msgList == null) {
 			msgList = new MessageList();
-			msgList.setUserId(userId);
-			msgList.setFriendId(friendId);
+			msgList.setUserId(friendId);
+			msgList.setFriendId(userId);
 			msgList.setContent(content);
 			msgList.setLastTime(new Date());
-			msgList.setNum(0);
+			msgList.setNum(1);
 			messageService.addList(msgList);
 		} else {
 			msgList.setContent(content);
 			msgList.setLastTime(new Date());
-			msgList.setNum(0);
+			msgList.setNum(msgList.getNum() + 1);
 			messageService.updateList(msgList);
-		}
-
-		//好友收到的
-		MessageList msgList2 = messageService.getMsgList(friendId, userId);
-		if (msgList2 == null) {
-			msgList2 = new MessageList();
-			msgList2.setUserId(friendId);
-			msgList2.setFriendId(userId);
-			msgList2.setContent(content);
-			msgList2.setLastTime(new Date());
-			msgList2.setNum(1);
-			messageService.addList(msgList2);
-		} else {
-			msgList2.setContent(content);
-			msgList2.setLastTime(new Date());
-			msgList2.setNum(msgList2.getNum() + 1);
-			messageService.updateList(msgList2);
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -127,6 +108,7 @@ public class MsgController {
 		return StringUtils.json(map);
 	}
 
+	//TODO
 	/**
 	 * 好友消息列表
 	 */

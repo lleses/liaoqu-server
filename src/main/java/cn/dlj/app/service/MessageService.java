@@ -40,16 +40,23 @@ public class MessageService {
 	}
 
 	@Transactional
+	public void update(Integer id, Integer status) {
+		if (id != null && status != null) {
+			dao.update(id, status);
+		}
+	}
+
+	@Transactional
 	public void updateList(MessageList messageList) {
 		if (messageList.getId() != null) {
 			dao.updateList(messageList);
 		}
 	}
 
-	public List<Message> getMsg(Integer userId, Integer friendId) {
+	public List<Message> getMsg(Integer userId, Integer friendId, Integer status) {
 		List<Message> list = new ArrayList<Message>();
-		if (userId != null && friendId != null) {
-			list = dao.getMsg(userId, friendId);
+		if (userId != null && friendId != null && status != null) {
+			list = dao.getMsg(userId, friendId, status);
 		}
 		return list;
 	}

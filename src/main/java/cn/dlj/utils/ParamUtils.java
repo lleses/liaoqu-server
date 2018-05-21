@@ -1,6 +1,9 @@
 package cn.dlj.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -122,6 +125,67 @@ public class ParamUtils {
 					}
 				}
 				return str;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 获取日期(yyyy-MM-dd)参数并传递(Attribute)
+	 * 
+	 * @param request
+	 *            HttpServletRequest对象
+	 * @param paramName
+	 *            参数名称
+	 * @return
+	 */
+	public static Date paramDate(HttpServletRequest request, String paramName) {
+		return paramDate(request, paramName, null, true);
+	}
+
+	/**
+	 * 获取日期(yyyy-MM-dd)参数
+	 * 
+	 * @param request
+	 *            HttpServletRequest对象
+	 * @param paramName
+	 *            参数名称
+	 * @param attr
+	 *            是否需要传递
+	 * @return
+	 */
+	public static Date paramDate(HttpServletRequest request, String paramName, boolean attr) {
+		return paramDate(request, paramName, null, attr);
+	}
+
+	/**
+	 * 获取日期参数
+	 * 
+	 * @param request
+	 *            HttpServletRequest对象
+	 * @param paramName
+	 *            参数名称
+	 * @param pattern
+	 *            日期格式，缺省yyyy-MM-dd
+	 * @param attr
+	 *            是否需要传递
+	 * @return
+	 */
+	public static Date paramDate(HttpServletRequest request, String paramName, String pattern, boolean attr) {
+		String str = getStr(request, paramName);
+		if (null != str) {
+			try {
+				Date date = null;
+				if (null == pattern) {
+					date = DateUtils.DF_DATE.parse(str);
+				} else {
+					date = new SimpleDateFormat(pattern).parse(str);
+				}
+				if (null != date && attr) {
+					request.setAttribute(paramName, str);// attribute参数
+				}
+				return date;
+			} catch (ParseException e) {
 			}
 		}
 		return null;

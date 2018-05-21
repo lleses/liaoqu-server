@@ -15,9 +15,11 @@ public interface MessageDao {
 
 	void addList(MessageList messageList);
 
+	void update(@Param("id") Integer id, @Param("status") Integer status);
+
 	void updateList(MessageList messageList);
 
-	List<Message> getMsg(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
+	List<Message> getMsg(@Param("userId") Integer userId, @Param("friendId") Integer friendId, @Param("status") Integer status);
 
 	MessageList getMsgList(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
 
