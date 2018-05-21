@@ -3,14 +3,20 @@
 <mapper namespace="cn.dlj.app.dao.MessageDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.Message" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_message(userId,friendId,content,type,addTime,contentType)
-		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType})
+		insert into t_message(userId,friendId,content,type,addTime,contentType,status)
+		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType},#{status})
 	</insert>
 	
 	<insert id="addList" parameterType="cn.dlj.app.entity.MessageList" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
 		insert into t_message_list(userId,friendId,num,lastTime,content)
 		values(#{userId},#{friendId},#{num},#{lastTime},#{content})
 	</insert>
+	
+	<update id="update" parameterType="cn.dlj.app.entity.Message" >
+		update t_message set
+			status= #{status}
+		where id=#{id}
+	</update>
 	
 	<update id="updateList" parameterType="cn.dlj.app.entity.MessageList" >
 		update t_message_list set
@@ -28,10 +34,11 @@
 				content 			as "content",
 				type 				as "type",
 				contentType 		as "contentType",
+				status 				as "status",
 				addTime				as "addTime"
 		from t_message
 		<where>
-			userId=#{userId} and friendId=#{friendId}
+			userId=#{userId} and friendId=#{friendId} and status=#{status}
 		</where>
 		order by addTime asc
 	</select>
