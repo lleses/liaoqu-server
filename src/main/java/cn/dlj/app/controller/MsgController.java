@@ -51,7 +51,6 @@ public class MsgController {
 		map.put("succ", "1");
 		map.put("data", list);
 
-		//TODO
 		MessageList msgList = messageService.getMsgList(userId, friendId);
 		if (msgList != null) {
 			msgList.setLastTime(new Date());
@@ -85,22 +84,38 @@ public class MsgController {
 		message.setStatus(1);
 		messageService.add(message);
 
-		//TODO
-		//好友收到的
-		MessageList msgList = messageService.getMsgList(friendId, userId);
+		//我发出的
+		MessageList msgList = messageService.getMsgList(userId, friendId);
 		if (msgList == null) {
 			msgList = new MessageList();
-			msgList.setUserId(friendId);
-			msgList.setFriendId(userId);
+			msgList.setUserId(userId);
+			msgList.setFriendId(friendId);
 			msgList.setContent(content);
-			msgList.setLastTime(new Date());
-			msgList.setNum(1);
+			msgList.setLastTime(addTime);
+			msgList.setNum(0);
 			messageService.addList(msgList);
 		} else {
 			msgList.setContent(content);
-			msgList.setLastTime(new Date());
-			msgList.setNum(msgList.getNum() + 1);
+			msgList.setLastTime(addTime);
+			msgList.setNum(0);
 			messageService.updateList(msgList);
+		}
+
+		//好友收到的
+		MessageList msgList2 = messageService.getMsgList(friendId, userId);
+		if (msgList2 == null) {
+			msgList2 = new MessageList();
+			msgList2.setUserId(friendId);
+			msgList2.setFriendId(userId);
+			msgList2.setContent(content);
+			msgList2.setLastTime(addTime);
+			msgList2.setNum(1);
+			messageService.addList(msgList2);
+		} else {
+			msgList2.setContent(content);
+			msgList2.setLastTime(addTime);
+			msgList2.setNum(msgList2.getNum() + 1);
+			messageService.updateList(msgList2);
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -108,13 +123,12 @@ public class MsgController {
 		return StringUtils.json(map);
 	}
 
-	//TODO
 	/**
 	 * 好友消息列表
 	 */
-	@RequestMapping("friendMsgList")
+	@RequestMapping("loadFriendMsgList")
 	@ResponseBody
-	public String friendMsgList(HttpServletRequest request) {
+	public String loadFriendMsgList(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer userId = ParamUtils.getInt(request, "userId");
 		List<MessageList> list = messageService.getMsgListByUserId(userId);

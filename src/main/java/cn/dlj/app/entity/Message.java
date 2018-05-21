@@ -31,7 +31,7 @@ public class Message {
 	public String getAddTimeStr() {
 		String format = "";
 		if (addTime != null) {
-			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			format = simple.format(addTime);
 		}
 		return format;

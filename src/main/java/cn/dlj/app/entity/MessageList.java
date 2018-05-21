@@ -30,7 +30,7 @@ public class MessageList {
 	public String getLastTimeStr() {
 		String format = "";
 		if (lastTime != null) {
-			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			format = simple.format(lastTime);
 		}
 		return format;
