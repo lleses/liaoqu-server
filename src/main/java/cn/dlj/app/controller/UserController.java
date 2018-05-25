@@ -60,6 +60,7 @@ public class UserController {
 		user.setPwd(Tool.md5Encode(pwd));
 		user.setPhone(phone);
 		user.setName(name);
+		user.setLockPwd(pwd);
 		Integer userId = userService.add(user);
 		user.setId(userId);
 		map.put("succ", "1");
