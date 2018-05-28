@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.Message;
 import cn.dlj.app.entity.MessageList;
-import cn.dlj.app.entity.User;
 import cn.dlj.app.service.MessageService;
-import cn.dlj.app.service.UserService;
+import cn.dlj.utils.IdUtils;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
+import cn.dlj.utils.Tool;
 
 /**
  * 消息
@@ -32,8 +32,6 @@ public class MsgController {
 
 	@Autowired
 	private MessageService messageService;
-	@Autowired
-	private UserService userService;
 
 	/**
 	 * 加载新的好友聊天记录
@@ -93,11 +91,13 @@ public class MsgController {
 			msgList.setContent(content);
 			msgList.setLastTime(addTime);
 			msgList.setNum(0);
+			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
 			messageService.addList(msgList);
 		} else {
 			msgList.setContent(content);
 			msgList.setLastTime(addTime);
 			msgList.setNum(0);
+			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
 			messageService.updateList(msgList);
 		}
 
@@ -110,11 +110,13 @@ public class MsgController {
 			msgList2.setContent(content);
 			msgList2.setLastTime(addTime);
 			msgList2.setNum(1);
+			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
 			messageService.addList(msgList2);
 		} else {
 			msgList2.setContent(content);
 			msgList2.setLastTime(addTime);
 			msgList2.setNum(msgList2.getNum() + 1);
+			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
 			messageService.updateList(msgList2);
 		}
 
@@ -148,13 +150,6 @@ public class MsgController {
 		map.put("succ", "1");
 		map.put("data", list);
 		map.put("total", total);
-
-		User user = userService.getById(userId);
-		if (user == null) {
-			map.put("lock", "-1");
-		} else {
-			map.put("lock", user.getLockPwd());
-		}
 		return StringUtils.json(map);
 	}
 

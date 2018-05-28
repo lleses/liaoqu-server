@@ -19,7 +19,7 @@ public class SmsUtils {
 	/** 应用ID **/
 	public static String appId = "8aaf070862fae1b501630b4bcc120840";
 	/** 膜版ID **/
-	public static String templateId = "246168";
+	public static String templateId = "250047";
 
 	/**
 	 * 发送短信

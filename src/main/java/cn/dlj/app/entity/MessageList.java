@@ -20,6 +20,8 @@ public class MessageList {
 	private Date lastTime;
 	/** 内容 **/
 	private String content;
+	/** 内容加密 **/
+	private String contentEncrypt;
 
 	/** 好友名称 **/
 	transient private String friendName;
@@ -132,6 +134,20 @@ public class MessageList {
 	 */
 	public void setFriendName(String friendName) {
 		this.friendName = friendName;
+	}
+
+	/**
+	 * 
+	 */
+	public String getContentEncrypt() {
+		return contentEncrypt;
+	}
+
+	/**
+	 * 
+	 */
+	public void setContentEncrypt(String contentEncrypt) {
+		this.contentEncrypt = contentEncrypt;
 	}
 
 }

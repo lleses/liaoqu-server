@@ -155,12 +155,6 @@ public class ContactsController {
 		}
 		map.put("total", total);
 
-		User user = userService.getById(userId);
-		if (user == null) {
-			map.put("lock", "-1");
-		} else {
-			map.put("lock", user.getLockPwd());
-		}
 		return StringUtils.json(map);
 	}
 
