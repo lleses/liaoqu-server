@@ -8,8 +8,8 @@
 	</insert>
 	
 	<insert id="addList" parameterType="cn.dlj.app.entity.MessageList" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_message_list(userId,friendId,num,lastTime,content)
-		values(#{userId},#{friendId},#{num},#{lastTime},#{content})
+		insert into t_message_list(userId,friendId,num,lastTime,content,contentEncrypt)
+		values(#{userId},#{friendId},#{num},#{lastTime},#{content},#{contentEncrypt})
 	</insert>
 	
 	<update id="update" parameterType="cn.dlj.app.entity.Message" >
@@ -22,7 +22,8 @@
 		update t_message_list set
 			num= #{num},
 			lastTime= #{lastTime}, 
-			content= #{content} 
+			content= #{content},
+			contentEncrypt= #{contentEncrypt} 
 		where userId=#{userId} and friendId=#{friendId}
 	</update>
 	
@@ -50,6 +51,7 @@
 				friendId 			as "friendId",
 				num 				as "num",
 				lastTime 			as "lastTime",
+				contentEncrypt 		as "contentEncrypt",
 				content				as "content"
 		from t_message_list
 		<where>
@@ -66,6 +68,7 @@
 				m.num 					as "num",
 				m.lastTime 				as "lastTime",
 				m.content				as "content",
+				m.contentEncrypt		as "contentEncrypt",
 				u.name					as "friendName"
 		from t_message_list m
 		left join t_user u on u.id = m.friendId
