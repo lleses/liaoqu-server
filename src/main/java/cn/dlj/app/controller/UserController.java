@@ -117,4 +117,35 @@ public class UserController {
 		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
+
+	/**
+	 * 修改用户文本内容
+	 */
+	@RequestMapping("eidtText")
+	@ResponseBody
+	public String eidtText(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		String type = ParamUtils.getStr(request, "type");
+		String content = ParamUtils.getStr(request, "content");
+		User user = userService.getById(userId);
+		if ("name".equals(type)) {//名称
+			user.setName(content);
+		} else if ("phone".equals(type)) {//电话
+			user.setPhone(content);
+		} else if ("organization".equals(type)) {//组织
+			user.setOrganization(content);
+		} else if ("signature".equals(type)) {//签名
+			user.setSignature(content);
+		} else if ("email".equals(type)) {//邮箱
+			user.setEmail(content);
+		} else {
+			map.put("succ", "-1");
+			map.put("msg", "修改失败");
+			return StringUtils.json(map);
+		}
+		userService.update(user);
+		map.put("succ", "1");
+		return StringUtils.json(map);
+	}
 }
