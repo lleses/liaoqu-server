@@ -44,7 +44,7 @@
 	
 	<select id="getByUserId" resultType="cn.dlj.app.entity.FriendRequests">
 		select
-				u.id 				as "id",
+				f.id 				as "id",
 				f.userId 			as "userId",
 				f.friendId 			as "friendId",
 				u.name 				as "friendName",
