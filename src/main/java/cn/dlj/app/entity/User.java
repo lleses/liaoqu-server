@@ -23,6 +23,8 @@ public class User {
 	private String signature;
 	/** 头像 */
 	private String headImg;
+	/** 邮箱 */
+	private String email;
 	/** 锁密码 */
 	private String lockPwd;
 
@@ -164,6 +166,20 @@ public class User {
 	 */
 	public void setLockPwd(String lockPwd) {
 		this.lockPwd = lockPwd;
+	}
+
+	/**
+	 * 
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * 
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

@@ -62,9 +62,8 @@ public class UserController {
 		user.setName(name);
 		user.setLockPwd(pwd);
 		Integer userId = userService.add(user);
-		user.setId(userId);
 		map.put("succ", "1");
-		map.put("userId", userId);
+		map.put("id", userId);
 		map.put("username", user.getUsername());
 		map.put("name", user.getName());
 		map.put("phone", user.getPhone());
@@ -92,12 +91,17 @@ public class UserController {
 			return StringUtils.json(map);
 		}
 		map.put("succ", "1");
-		map.put("userId", user.getId());
+		map.put("id", user.getId());
 		map.put("username", user.getUsername());
+		map.put("pwd", user.getLockPwd());
 		map.put("name", user.getName());
 		map.put("phone", user.getPhone());
-
-		userService.updateLock(user.getId(), "-1");
+		map.put("sex", user.getSex());
+		map.put("organization", user.getOrganization());
+		map.put("signature", user.getSignature());
+		map.put("headImg", user.getHeadImg());
+		map.put("email", user.getEmail());
+		map.put("lockPwd", user.getLockPwd());
 		return StringUtils.json(map);//跳转内容页
 	}
 
