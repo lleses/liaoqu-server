@@ -69,7 +69,8 @@
 				m.lastTime 				as "lastTime",
 				m.content				as "content",
 				m.contentEncrypt		as "contentEncrypt",
-				u.name					as "friendName"
+				u.name					as "friendName",
+				u.headImg				as "friendHeadImg"
 		from t_message_list m
 		left join t_user u on u.id = m.friendId
 		<where>

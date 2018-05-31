@@ -3,8 +3,8 @@
 <mapper namespace="cn.dlj.app.dao.UserDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_user(username,pwd,phone,name,lockPwd)
-		values(#{username},#{pwd},#{phone},#{name},#{lockPwd})
+		insert into t_user(username,pwd,phone,name,lockPwd,headImg)
+		values(#{username},#{pwd},#{phone},#{name},#{lockPwd},#{headImg})
 	</insert>
 	
 	<insert id="add2" parameterType="cn.dlj.app.entity.User" keyColumn="id" useGeneratedKeys="true" keyProperty="id">

@@ -48,6 +48,7 @@
 				f.userId 			as "userId",
 				f.friendId 			as "friendId",
 				u.name 				as "friendName",
+				u.headImg 			as "friendHeadImg",
 				f.status 			as "status"
 		from t_friend_requests f
 		left join t_user u on u.id=f.friendId
