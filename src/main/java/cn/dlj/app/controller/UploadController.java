@@ -37,7 +37,7 @@ public class UploadController {
 		String imgSrc = FileUtils.imgbasc64(imgbasc64, HEAD_IMG_UPLOAD_PATH);//basc64转成图片文件
 
 		User user = userService.getById(userId);
-		user.setHeadImg(imgSrc);
+		user.setHeadImg("headImg/" + imgSrc);
 		userService.update(user);
 
 		Map<String, Object> map = new HashMap<String, Object>();

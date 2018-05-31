@@ -61,13 +61,14 @@ public class UserController {
 		user.setPhone(phone);
 		user.setName(name);
 		user.setLockPwd(pwd);
-		user.setHeadImg("defaultHeadImg.jpg");
+		user.setHeadImg("headImg/defaultHeadImg.jpg");
 		Integer userId = userService.add(user);
 		map.put("succ", "1");
 		map.put("id", userId);
 		map.put("username", user.getUsername());
 		map.put("name", user.getName());
 		map.put("phone", user.getPhone());
+		map.put("headImg", user.getHeadImg());
 		return StringUtils.json(map);
 	}
 
