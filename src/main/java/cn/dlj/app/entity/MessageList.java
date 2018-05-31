@@ -25,6 +25,8 @@ public class MessageList {
 
 	/** 好友名称 **/
 	transient private String friendName;
+	/** 好友头像 **/
+	transient private String friendHeadImg;
 
 	/**
 	 * 
@@ -148,6 +150,20 @@ public class MessageList {
 	 */
 	public void setContentEncrypt(String contentEncrypt) {
 		this.contentEncrypt = contentEncrypt;
+	}
+
+	/**
+	 * 
+	 */
+	public String getFriendHeadImg() {
+		return friendHeadImg;
+	}
+
+	/**
+	 * 
+	 */
+	public void setFriendHeadImg(String friendHeadImg) {
+		this.friendHeadImg = friendHeadImg;
 	}
 
 }

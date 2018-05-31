@@ -61,6 +61,7 @@ public class UserController {
 		user.setPhone(phone);
 		user.setName(name);
 		user.setLockPwd(pwd);
+		user.setHeadImg("defaultHeadImg.jpg");
 		Integer userId = userService.add(user);
 		map.put("succ", "1");
 		map.put("id", userId);
@@ -147,5 +148,19 @@ public class UserController {
 		userService.update(user);
 		map.put("succ", "1");
 		return StringUtils.json(map);
+	}
+
+	/**
+	 * 获取用户信息
+	 */
+	@RequestMapping("get_user")
+	@ResponseBody
+	public String getUser(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		User user = userService.getById(userId);
+		map.put("succ", "1");
+		map.put("data", user);
+		return StringUtils.json(map);//跳转内容页
 	}
 }

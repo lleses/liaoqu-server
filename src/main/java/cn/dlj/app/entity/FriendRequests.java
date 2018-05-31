@@ -20,6 +20,8 @@ public class FriendRequests {
 
 	/** 好友名称 **/
 	transient private String friendName;
+	/** 好友头像 **/
+	transient private String friendHeadImg;
 
 	/**
 	 * 
@@ -103,6 +105,20 @@ public class FriendRequests {
 	 */
 	public void setFriendName(String friendName) {
 		this.friendName = friendName;
+	}
+
+	/**
+	 * 
+	 */
+	public String getFriendHeadImg() {
+		return friendHeadImg;
+	}
+
+	/**
+	 * 
+	 */
+	public void setFriendHeadImg(String friendHeadImg) {
+		this.friendHeadImg = friendHeadImg;
 	}
 
 }
