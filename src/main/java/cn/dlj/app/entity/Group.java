@@ -17,6 +17,13 @@ public class Group {
 	/**
 	 * 
 	 */
+	public String getIntroductionStr() {
+		return introduction == null ? "" : introduction;
+	}
+
+	/**
+	 * 
+	 */
 	public Integer getId() {
 		return id;
 	}

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.dlj.app.dao.MessageDao;
 import cn.dlj.app.entity.Message;
-import cn.dlj.app.entity.MessageList;
 
 /**
  * 消息
@@ -31,55 +30,18 @@ public class MessageService {
 	}
 
 	@Transactional
-	public Integer addList(MessageList messageList) {
-		dao.addList(messageList);
-		if (messageList != null && messageList.getId() != null) {
-			return messageList.getId();
-		}
-		return null;
-	}
-
-	@Transactional
 	public void update(Integer id, Integer status) {
 		if (id != null && status != null) {
 			dao.update(id, status);
 		}
 	}
 
-	@Transactional
-	public void updateList(MessageList messageList) {
-		if (messageList.getId() != null) {
-			dao.updateList(messageList);
-		}
-	}
-
-	public List<Message> getMsg(Integer userId, Integer friendId, Integer status) {
+	public List<Message> findByUserIdAndFriendIdAndStatus(Integer userId, Integer friendId, Integer status) {
 		List<Message> list = new ArrayList<Message>();
 		if (userId != null && friendId != null && status != null) {
-			list = dao.getMsg(userId, friendId, status);
+			list = dao.findByUserIdAndFriendIdAndStatus(userId, friendId, status);
 		}
 		return list;
 	}
 
-	public MessageList getMsgList(Integer userId, Integer friendId) {
-		if (userId != null && friendId != null) {
-			MessageList user = dao.getMsgList(userId, friendId);
-			return user;
-		}
-		return null;
-	}
-
-	public List<MessageList> getMsgListByUserId(Integer userId) {
-		List<MessageList> list = new ArrayList<MessageList>();
-		if (userId != null) {
-			list = dao.getMsgListByUserId(userId);
-		}
-		return list;
-	}
-
-	public void delMsgList(Integer userId, Integer friendId) {
-		if (userId != null && friendId != null) {
-			dao.delMsgList(userId, friendId);
-		}
-	}
 }

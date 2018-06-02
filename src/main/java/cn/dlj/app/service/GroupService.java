@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.dlj.app.dao.GroupDao;
 import cn.dlj.app.entity.Group;
-import cn.dlj.app.entity.GroupUserRelation;
 
 /**
  * 群组
@@ -30,20 +29,19 @@ public class GroupService {
 		return null;
 	}
 
-	@Transactional
-	public Integer addGroupUser(GroupUserRelation groupUserRelation) {
-		dao.addGroupUser(groupUserRelation);
-		if (groupUserRelation != null && groupUserRelation.getId() != null) {
-			return groupUserRelation.getId();
+	public Group findById(Integer id) {
+		if (id != null) {
+			return dao.findById(id);
 		}
 		return null;
 	}
 
-	public List<Group> getGroupList(Integer userId) {
+	public List<Group> findByUserId(Integer userId) {
 		List<Group> list = new ArrayList<Group>();
 		if (userId != null) {
-			list = dao.getGroupList(userId);
+			list = dao.findByUserId(userId);
 		}
 		return list;
 	}
+
 }

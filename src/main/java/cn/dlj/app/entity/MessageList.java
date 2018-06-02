@@ -22,6 +22,8 @@ public class MessageList {
 	private String content;
 	/** 内容加密 **/
 	private String contentEncrypt;
+	/** 类型(1:个人 2:群) **/
+	private Integer type;
 
 	/** 好友名称 **/
 	transient private String friendName;
@@ -164,6 +166,20 @@ public class MessageList {
 	 */
 	public void setFriendHeadImg(String friendHeadImg) {
 		this.friendHeadImg = friendHeadImg;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getType() {
+		return type;
+	}
+
+	/**
+	 * 
+	 */
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 }

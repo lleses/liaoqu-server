@@ -7,27 +7,13 @@
 		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType},#{status})
 	</insert>
 	
-	<insert id="addList" parameterType="cn.dlj.app.entity.MessageList" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_message_list(userId,friendId,num,lastTime,content,contentEncrypt)
-		values(#{userId},#{friendId},#{num},#{lastTime},#{content},#{contentEncrypt})
-	</insert>
-	
 	<update id="update" parameterType="cn.dlj.app.entity.Message" >
 		update t_message set
 			status= #{status}
 		where id=#{id}
 	</update>
 	
-	<update id="updateList" parameterType="cn.dlj.app.entity.MessageList" >
-		update t_message_list set
-			num= #{num},
-			lastTime= #{lastTime}, 
-			content= #{content},
-			contentEncrypt= #{contentEncrypt} 
-		where userId=#{userId} and friendId=#{friendId}
-	</update>
-	
-	<select id="getMsg" resultType="cn.dlj.app.entity.Message">
+	<select id="findByUserIdAndFriendIdAndStatus" resultType="cn.dlj.app.entity.Message">
 		select
 				id 					as "id",
 				userId 				as "userId",
@@ -43,44 +29,5 @@
 		</where>
 		order by addTime asc
 	</select>
-	
-	<select id="getMsgList" resultType="cn.dlj.app.entity.MessageList">
-		select
-				id 					as "id",
-				userId 				as "userId",
-				friendId 			as "friendId",
-				num 				as "num",
-				lastTime 			as "lastTime",
-				contentEncrypt 		as "contentEncrypt",
-				content				as "content"
-		from t_message_list
-		<where>
-			userId=#{userId} and friendId=#{friendId}
-		</where>
-		order by lastTime asc
-	</select>
-	
-	<select id="getMsgListByUserId" resultType="cn.dlj.app.entity.MessageList">
-		select
-				m.id 					as "id",
-				m.userId 				as "userId",
-				m.friendId 				as "friendId",
-				m.num 					as "num",
-				m.lastTime 				as "lastTime",
-				m.content				as "content",
-				m.contentEncrypt		as "contentEncrypt",
-				u.name					as "friendName",
-				u.headImg				as "friendHeadImg"
-		from t_message_list m
-		left join t_user u on u.id = m.friendId
-		<where>
-			m.userId=#{userId}
-		</where>
-		order by m.lastTime asc
-	</select>
-	
-	<delete id="delMsgList">
-		delete from t_message_list where userId=#{userId} and friendId=#{friendId}
-	</delete>
 	
 </mapper>

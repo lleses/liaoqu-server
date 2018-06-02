@@ -17,7 +17,7 @@ import cn.dlj.app.entity.MessageList;
 import cn.dlj.app.entity.User;
 import cn.dlj.app.entity.UserFriendRelation;
 import cn.dlj.app.service.FriendRequestsService;
-import cn.dlj.app.service.MessageService;
+import cn.dlj.app.service.MessageListService;
 import cn.dlj.app.service.UserService;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
@@ -37,7 +37,7 @@ public class ContactsController {
 	@Autowired
 	private FriendRequestsService friendRequestsService;
 	@Autowired
-	private MessageService messageService;
+	private MessageListService msgListService;
 
 	/**
 	 * 搜索好友
@@ -148,7 +148,7 @@ public class ContactsController {
 		//查询统计总数
 		int total = 0;
 		for (User friend : friends) {
-			MessageList msgList = messageService.getMsgList(userId, friend.getId());
+			MessageList msgList = msgListService.findByUserIdAndFriendId(userId, friend.getId());
 			if (msgList != null) {
 				total = total + msgList.getNum();
 			}

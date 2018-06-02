@@ -7,13 +7,19 @@
 		values(#{name},#{introduction},#{headImg})
 	</insert>
 	
-	<insert id="addGroupUser" parameterType="cn.dlj.app.entity.GroupUserRelation" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_group_user_relation(groupId,userId,addTime)
-		values(#{groupId},#{userId},#{addTime})
-	</insert>
+	<select id="findById" resultType="cn.dlj.app.entity.Group">
+		select
+				g.id 					as "id",
+				g.name 					as "name",
+				g.introduction 			as "introduction",
+				g.headImg 				as "headImg"
+		from t_group g
+		<where>
+			g.id = #{id}
+		</where>
+	</select>
 	
-	
-	<select id="getGroupList" resultType="cn.dlj.app.entity.Group">
+	<select id="findByUserId" resultType="cn.dlj.app.entity.Group">
 		select
 				g.id 					as "id",
 				g.name 					as "name",
@@ -25,6 +31,5 @@
 			r.userId=#{userId}
 		</where>
 	</select>
-	
 	
 </mapper>

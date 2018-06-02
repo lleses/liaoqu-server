@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dlj.app.dao.GroupUserRelationDao">
+
+	
+	<insert id="add" parameterType="cn.dlj.app.entity.GroupUserRelation" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_group_user_relation(groupId,userId,addTime)
+		values(#{groupId},#{userId},#{addTime})
+	</insert>
+	
+	
+	<select id="findByUserIdAndGroupId" resultType="cn.dlj.app.entity.GroupUserRelation">
+		select
+				r.id 					as "id",
+				r.groupId 				as "groupId",
+				r.userId 				as "userId",
+				r.addTime 				as "addTime"
+		from t_group_user_relation r
+		<where>
+			r.userId=#{userId} and r.groupId = #{groupId}
+		</where>
+	</select>
+	
+	
+	<select id="findByGroupId" resultType="cn.dlj.app.entity.GroupUserRelation">
+		select
+				r.id 					as "id",
+				r.groupId 				as "groupId",
+				r.userId 				as "userId",
+				r.addTime 				as "addTime",
+				u.name	 				as "groupUserName"
+		from t_group_user_relation r
+		left join t_user u on u.id = r.userId
+		<where>
+			r.groupId = #{groupId}
+		</where>
+	</select>
+	
+</mapper>

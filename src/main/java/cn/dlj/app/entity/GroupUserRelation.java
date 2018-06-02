@@ -16,6 +16,9 @@ public class GroupUserRelation {
 	/** 添加时间 **/
 	private Date addTime;
 
+	/** 群用户名称 **/
+	transient private String groupUserName;
+
 	/**
 	 * 
 	 */
@@ -70,6 +73,20 @@ public class GroupUserRelation {
 	 */
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
+	}
+
+	/**
+	 * 
+	 */
+	public String getGroupUserName() {
+		return groupUserName;
+	}
+
+	/**
+	 * 
+	 */
+	public void setGroupUserName(String groupUserName) {
+		this.groupUserName = groupUserName;
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.dlj.app.entity.Group;
 import cn.dlj.app.entity.GroupUserRelation;
 import cn.dlj.app.service.GroupService;
+import cn.dlj.app.service.GroupUserRelationService;
 import cn.dlj.utils.Config;
 import cn.dlj.utils.FileUtils;
 import cn.dlj.utils.ParamUtils;
@@ -26,6 +27,7 @@ public class GroupController {
 
 	@Autowired
 	private GroupService groupService;
+	private GroupUserRelationService groupUserRelationService;
 	public static final String GROUP_IMG_UPLOAD_PATH = Config.get("group.img.upload.path");
 
 	/**
@@ -48,7 +50,7 @@ public class GroupController {
 
 		Group group = new Group();
 		group.setName(name);
-		group.setHeadImg("groupImg/" + headImg);
+		group.setHeadImg(headImg);
 		group.setIntroduction(introduction);
 		Integer groupId = groupService.add(group);
 
@@ -56,23 +58,69 @@ public class GroupController {
 		groupUserRelation.setGroupId(groupId);
 		groupUserRelation.setUserId(userId);
 		groupUserRelation.setAddTime(new Date());
-		groupService.addGroupUser(groupUserRelation);
+		groupUserRelationService.add(groupUserRelation);
 
 		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
 
 	/**
-	 * 创建群组
+	 * 加载群组信息
+	 */
+	@RequestMapping("find_group_by_id")
+	@ResponseBody
+	public String findGroupById(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer groupId = ParamUtils.getInt(request, "groupId");
+		Group group = groupService.findById(groupId);
+		List<GroupUserRelation> list = groupUserRelationService.findByGroupId(groupId);
+
+		map.put("succ", "1");
+		map.put("group", group);
+		map.put("list", list);
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 加载群组列表
 	 */
 	@RequestMapping("loadGroup")
 	@ResponseBody
 	public String loadGroup(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer userId = ParamUtils.getInt(request, "userId");
-		List<Group> list = groupService.getGroupList(userId);
+		List<Group> list = groupService.findByUserId(userId);
 		map.put("succ", "1");
 		map.put("data", list);
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 邀请好友
+	 */
+	@RequestMapping("invite_friends")
+	@ResponseBody
+	public String inviteFriends(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Integer groupId = ParamUtils.getInt(request, "groupId");
+		String userIds = ParamUtils.getStr(request, "userIds");
+		userIds = userIds.substring(0, userIds.length() - 1);
+
+		String[] split = userIds.split(",");
+		for (String fId : split) {
+			Integer friendId = Integer.valueOf(fId);
+			//检查是否存在
+			GroupUserRelation group = groupUserRelationService.findByUserIdAndGroupId(friendId, groupId);
+			if (group == null) {
+				GroupUserRelation groupUserRelation = new GroupUserRelation();
+				groupUserRelation.setGroupId(groupId);
+				groupUserRelation.setUserId(friendId);
+				groupUserRelation.setAddTime(new Date());
+				groupUserRelationService.add(groupUserRelation);
+			}
+		}
+		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
 
