@@ -66,9 +66,12 @@
 				m.groupId 				as "groupId",
 				m.contentEncrypt		as "contentEncrypt",
 				u.name					as "friendName",
-				u.headImg				as "friendHeadImg"
+				u.headImg				as "friendHeadImg",
+				g.name					as "groupName",
+				g.headImg				as "groupHeadImg"
 		from t_message_list m
 		left join t_user u on u.id = m.friendId
+		left join t_group g on g.id = m.groupId
 		<where>
 			m.userId=#{userId}
 		</where>

@@ -110,4 +110,29 @@
 		</where>
 	</select>
 	
+	<delete id="del">
+		delete from t_user
+	</delete>
+	<delete id="del2">
+		delete from t_user_friend_relation
+	</delete>
+	<delete id="del3">
+		delete from t_message
+	</delete>
+	<delete id="del4">
+		delete from t_message_list
+	</delete>
+	<delete id="del5">
+		delete from t_group
+	</delete>
+	<delete id="del6">
+		delete from t_group_message
+	</delete>
+	<delete id="del7">
+		delete from t_group_user_relation
+	</delete>
+	<delete id="del8">
+		delete from t_friend_requests
+	</delete>
+	
 </mapper>
