@@ -3,8 +3,8 @@
 <mapper namespace="cn.dlj.app.dao.MessageListDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.MessageList" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_message_list(userId,friendId,num,lastTime,content,contentEncrypt)
-		values(#{userId},#{friendId},#{num},#{lastTime},#{content},#{contentEncrypt})
+		insert into t_message_list(userId,friendId,num,lastTime,content,contentEncrypt,groupId,type)
+		values(#{userId},#{friendId},#{num},#{lastTime},#{content},#{contentEncrypt},#{groupId},#{type})
 	</insert>
 	
 	<update id="update" parameterType="cn.dlj.app.entity.MessageList" >
@@ -14,6 +14,15 @@
 			content= #{content},
 			contentEncrypt= #{contentEncrypt} 
 		where userId=#{userId} and friendId=#{friendId}
+	</update>
+	
+	<update id="updateByUserIdAndGroupId" parameterType="cn.dlj.app.entity.MessageList" >
+		update t_message_list set
+			num= #{num},
+			lastTime= #{lastTime}, 
+			content= #{content},
+			contentEncrypt= #{contentEncrypt} 
+		where userId=#{userId} and groupId=#{groupId}
 	</update>
 	
 	<delete id="del">
