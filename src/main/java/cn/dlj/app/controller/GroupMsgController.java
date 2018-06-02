@@ -84,6 +84,7 @@ public class GroupMsgController {
 		//群用户收到的通知
 		List<GroupUserRelation> list = groupUserRelationService.findByGroupId(groupId);
 		for (GroupUserRelation groupUserRelation : list) {
+			//过滤掉我自己的
 			if (userId != groupUserRelation.getUserId()) {
 				MessageList msgList2 = msgListService.findByUserIdAndGroupId(groupUserRelation.getUserId(), groupId);
 				if (msgList2 == null) {
