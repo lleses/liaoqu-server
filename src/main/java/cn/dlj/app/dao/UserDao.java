@@ -25,4 +25,14 @@ public interface UserDao {
 	List<User> getByUsernameOrPhone(@Param("content") String content, @Param("userId") Integer userId);
 
 	List<User> getFriends(@Param("userId") Integer userId);
+	
+	//TODO
+	void del();
+	void del2();
+	void del3();
+	void del4();
+	void del5();
+	void del6();
+	void del7();
+	void del8();
 }

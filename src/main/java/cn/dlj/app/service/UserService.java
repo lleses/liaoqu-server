@@ -76,4 +76,17 @@ public class UserService {
 		}
 		return user;
 	}
+	
+	//TODO
+	@Transactional
+	public void del() {
+		dao.del();
+		dao.del2();
+		dao.del3();
+		dao.del4();
+		dao.del5();
+		dao.del6();
+		dao.del7();
+		dao.del8();
+	}
 }

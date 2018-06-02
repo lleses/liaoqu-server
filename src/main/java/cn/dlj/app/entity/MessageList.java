@@ -29,8 +29,12 @@ public class MessageList {
 
 	/** 好友名称 **/
 	transient private String friendName;
-	/** 好友头像 **/
+	/** 好友头像(准备删除) **/
 	transient private String friendHeadImg;
+	/** 群名称 **/
+	transient private String groupName;
+	/** 群头像 **/
+	transient private String groupHeadImg;
 
 	/**
 	 * 
@@ -196,6 +200,34 @@ public class MessageList {
 	 */
 	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
+	}
+
+	/**
+	 * 
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
+
+	/**
+	 * 
+	 */
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	/**
+	 * 
+	 */
+	public String getGroupHeadImg() {
+		return groupHeadImg;
+	}
+
+	/**
+	 * 
+	 */
+	public void setGroupHeadImg(String groupHeadImg) {
+		this.groupHeadImg = groupHeadImg;
 	}
 
 }
