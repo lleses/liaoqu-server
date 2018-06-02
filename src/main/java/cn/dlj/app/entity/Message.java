@@ -22,7 +22,7 @@ public class Message {
 	private Integer contentType;
 	/** 创建时间 **/
 	private Date addTime;
-	/** 状态(1:未处理 2:已处理) **/
+	/** 状态(1:未处理 2:已处理) (准备删除) **/
 	private Integer status;
 
 	/**

@@ -1,5 +1,8 @@
 package cn.dlj.app.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,14 @@ public class GroupMessageService {
 			return groupMessage.getId();
 		}
 		return null;
+	}
+
+	public List<GroupMessage> findByGroupIdAndUserId(Integer groupId, Integer userId) {
+		List<GroupMessage> list = new ArrayList<GroupMessage>();
+		if (groupId != null && userId != null) {
+			list = dao.findByGroupIdAndUserId(groupId, userId);
+		}
+		return list;
 	}
 
 }

@@ -12,10 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.dlj.app.entity.GroupMessage;
 import cn.dlj.app.entity.Message;
 import cn.dlj.app.entity.MessageList;
-import cn.dlj.app.service.GroupMessageService;
 import cn.dlj.app.service.MessageListService;
 import cn.dlj.app.service.MessageService;
 import cn.dlj.utils.IdUtils;
@@ -37,8 +35,6 @@ public class MsgController {
 	private MessageService msgService;
 	@Autowired
 	private MessageListService msgListService;
-	@Autowired
-	private GroupMessageService groupMessageService;
 
 	/**
 	 * 加载新的好友聊天记录
@@ -50,6 +46,7 @@ public class MsgController {
 		Integer friendId = ParamUtils.getInt(request, "friendId");
 		List<Message> list = msgService.findByUserIdAndFriendIdAndStatus(userId, friendId, 1);
 		for (Message message : list) {
+			//TODO 好像没用到，准备删除
 			msgService.update(message.getId(), 2);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -99,6 +96,7 @@ public class MsgController {
 			msgList.setLastTime(addTime);
 			msgList.setNum(0);
 			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList.setType(1);
 			msgListService.add(msgList);
 		} else {
 			msgList.setContent(content);
@@ -118,6 +116,7 @@ public class MsgController {
 			msgList2.setLastTime(addTime);
 			msgList2.setNum(1);
 			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList2.setType(1);
 			msgListService.add(msgList2);
 		} else {
 			msgList2.setContent(content);
@@ -160,70 +159,4 @@ public class MsgController {
 		return StringUtils.json(map);
 	}
 
-	//TODO
-	/**
-	 * 发送群组聊天信息
-	 */
-	@RequestMapping("send_group_msg")
-	@ResponseBody
-	public String sendGroupMsg(HttpServletRequest request) {
-
-		Integer userId = ParamUtils.getInt(request, "userId");
-		Integer groupId = ParamUtils.getInt(request, "groupId");
-		String content = ParamUtils.getStr(request, "content");
-		Integer contentType = 1;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 )
-		Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
-
-		//好友收到的信息
-		GroupMessage groupMessage = new GroupMessage();
-		groupMessage.setUserId(userId);
-		groupMessage.setGroupId(groupId);
-		groupMessage.setContent(content);
-		groupMessage.setAddTime(addTime);
-		groupMessage.setContentType(contentType);
-		groupMessage.setStatus(1);
-		groupMessageService.add(groupMessage);
-
-//		//我发出的
-//		MessageList msgList = messageService.getMsgList(userId, friendId);
-//		if (msgList == null) {
-//			msgList = new MessageList();
-//			msgList.setUserId(userId);
-//			msgList.setFriendId(friendId);
-//			msgList.setContent(content);
-//			msgList.setLastTime(addTime);
-//			msgList.setNum(0);
-//			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-//			messageService.addList(msgList);
-//		} else {
-//			msgList.setContent(content);
-//			msgList.setLastTime(addTime);
-//			msgList.setNum(0);
-//			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-//			messageService.updateList(msgList);
-//		}
-//
-//		//好友收到的
-//		MessageList msgList2 = messageService.getMsgList(friendId, userId);
-//		if (msgList2 == null) {
-//			msgList2 = new MessageList();
-//			msgList2.setUserId(friendId);
-//			msgList2.setFriendId(userId);
-//			msgList2.setContent(content);
-//			msgList2.setLastTime(addTime);
-//			msgList2.setNum(1);
-//			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-//			messageService.addList(msgList2);
-//		} else {
-//			msgList2.setContent(content);
-//			msgList2.setLastTime(addTime);
-//			msgList2.setNum(msgList2.getNum() + 1);
-//			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-//			messageService.updateList(msgList2);
-//		}
-
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("succ", "1");
-		return StringUtils.json(map);
-	}
 }

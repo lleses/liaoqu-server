@@ -27,6 +27,7 @@ public class GroupController {
 
 	@Autowired
 	private GroupService groupService;
+	@Autowired
 	private GroupUserRelationService groupUserRelationService;
 	public static final String GROUP_IMG_UPLOAD_PATH = Config.get("group.img.upload.path");
 

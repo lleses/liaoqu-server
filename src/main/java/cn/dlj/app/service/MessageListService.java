@@ -50,6 +50,14 @@ public class MessageListService {
 		return null;
 	}
 
+	public MessageList findByUserIdAndGroupId(Integer userId, Integer groupId) {
+		if (userId != null && groupId != null) {
+			MessageList user = dao.findByUserIdAndGroupId(userId, groupId);
+			return user;
+		}
+		return null;
+	}
+
 	public List<MessageList> findByUserId(Integer userId) {
 		List<MessageList> list = new ArrayList<MessageList>();
 		if (userId != null) {

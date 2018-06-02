@@ -14,6 +14,8 @@ public class MessageList {
 	private Integer userId;
 	/** 消息朋友ID **/
 	private Integer friendId;
+	/** 群ID **/
+	private Integer groupId;
 	/** 未读数量 **/
 	private Integer num;
 	/** 最后消息发送时间 **/
@@ -180,6 +182,20 @@ public class MessageList {
 	 */
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getGroupId() {
+		return groupId;
+	}
+
+	/**
+	 * 
+	 */
+	public void setGroupId(Integer groupId) {
+		this.groupId = groupId;
 	}
 
 }

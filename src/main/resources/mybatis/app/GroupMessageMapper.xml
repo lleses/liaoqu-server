@@ -7,5 +7,14 @@
 		values(#{userId},#{groupId},#{content},#{addTime},#{contentType},#{status})
 	</insert>
 	
+	<select id="findByGroupIdAndUserId" resultType="cn.dlj.app.entity.GroupMessage">
+		select
+				*
+		from t_group_message
+		<where>
+			groupId=#{groupId} and userId != #{userId}
+		</where>
+		order by addTime asc
+	</select>
 	
 </mapper>

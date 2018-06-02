@@ -18,7 +18,8 @@ public interface MessageListDao {
 
 	MessageList findByUserIdAndFriendId(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
 
-	List<MessageList> findByUserId(@Param("userId") Integer userId);
+	MessageList findByUserIdAndGroupId(@Param("userId") Integer userId, @Param("groupId") Integer groupId);
 
+	List<MessageList> findByUserId(@Param("userId") Integer userId);
 
 }
