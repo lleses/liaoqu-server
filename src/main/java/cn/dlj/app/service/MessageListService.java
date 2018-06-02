@@ -36,6 +36,13 @@ public class MessageListService {
 		}
 	}
 
+	@Transactional
+	public void updateByUserIdAndGroupId(MessageList messageList) {
+		if (messageList.getId() != null) {
+			dao.updateByUserIdAndGroupId(messageList);
+		}
+	}
+
 	public void del(Integer userId, Integer friendId) {
 		if (userId != null && friendId != null) {
 			dao.del(userId, friendId);

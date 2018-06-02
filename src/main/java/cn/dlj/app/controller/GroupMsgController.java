@@ -79,27 +79,29 @@ public class GroupMsgController {
 			msgList.setLastTime(addTime);
 			msgList.setNum(0);
 			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-			msgListService.update(msgList);
+			msgListService.updateByUserIdAndGroupId(msgList);
 		}
 		//群用户收到的通知
 		List<GroupUserRelation> list = groupUserRelationService.findByGroupId(groupId);
 		for (GroupUserRelation groupUserRelation : list) {
-			MessageList msgList2 = msgListService.findByUserIdAndGroupId(groupUserRelation.getUserId(), groupId);
-			if (msgList2 == null) {
-				msgList2 = new MessageList();
-				msgList2.setUserId(groupUserRelation.getUserId());
-				msgList2.setFriendId(userId);
-				msgList2.setContent(content);
-				msgList2.setLastTime(addTime);
-				msgList2.setNum(1);
-				msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-				msgListService.add(msgList2);
-			} else {
-				msgList2.setContent(content);
-				msgList2.setLastTime(addTime);
-				msgList2.setNum(msgList2.getNum() + 1);
-				msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-				msgListService.update(msgList2);
+			if (userId != groupUserRelation.getUserId()) {
+				MessageList msgList2 = msgListService.findByUserIdAndGroupId(groupUserRelation.getUserId(), groupId);
+				if (msgList2 == null) {
+					msgList2 = new MessageList();
+					msgList2.setUserId(groupUserRelation.getUserId());
+					msgList2.setFriendId(userId);
+					msgList2.setContent(content);
+					msgList2.setLastTime(addTime);
+					msgList2.setNum(1);
+					msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+					msgListService.add(msgList2);
+				} else {
+					msgList2.setContent(content);
+					msgList2.setLastTime(addTime);
+					msgList2.setNum(msgList2.getNum() + 1);
+					msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+					msgListService.updateByUserIdAndGroupId(msgList2);
+				}
 			}
 		}
 

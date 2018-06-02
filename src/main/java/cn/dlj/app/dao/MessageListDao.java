@@ -14,6 +14,8 @@ public interface MessageListDao {
 
 	void update(MessageList messageList);
 
+	void updateByUserIdAndGroupId(MessageList messageList);
+
 	void del(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
 
 	MessageList findByUserIdAndFriendId(@Param("userId") Integer userId, @Param("friendId") Integer friendId);
