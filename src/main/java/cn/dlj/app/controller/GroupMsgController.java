@@ -52,57 +52,51 @@ public class GroupMsgController {
 		Integer contentType = 1;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 )
 		Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
 
-		//我发出的信息
-		GroupMessage groupMsg = new GroupMessage();
-		groupMsg.setUserId(userId);
-		groupMsg.setGroupId(groupId);
-		groupMsg.setContent(content);
-		groupMsg.setAddTime(addTime);
-		groupMsg.setContentType(contentType);
-		groupMsg.setStatus(1);
-		groupMsgService.add(groupMsg);
-
-		//--------------创建通知--------------
-		//我发出的通知
-		MessageList msgList = msgListService.findByUserIdAndGroupId(userId, groupId);
-		if (msgList == null) {
-			msgList = new MessageList();
-			msgList.setUserId(userId);
-			msgList.setGroupId(groupId);
-			msgList.setContent(content);
-			msgList.setLastTime(addTime);
-			msgList.setNum(0);
-			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-			msgListService.add(msgList);
-		} else {
-			msgList.setContent(content);
-			msgList.setLastTime(addTime);
-			msgList.setNum(0);
-			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-			msgListService.updateByUserIdAndGroupId(msgList);
-		}
-		//群用户收到的通知
+		//获取群用户
 		List<GroupUserRelation> list = groupUserRelationService.findByGroupId(groupId);
 		for (GroupUserRelation groupUserRelation : list) {
-			//过滤掉我自己的
-			if (userId != groupUserRelation.getUserId()) {
-				MessageList msgList2 = msgListService.findByUserIdAndGroupId(groupUserRelation.getUserId(), groupId);
-				if (msgList2 == null) {
-					msgList2 = new MessageList();
-					msgList2.setUserId(groupUserRelation.getUserId());
-					msgList2.setFriendId(userId);
-					msgList2.setContent(content);
-					msgList2.setLastTime(addTime);
-					msgList2.setNum(1);
-					msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-					msgListService.add(msgList2);
-				} else {
-					msgList2.setContent(content);
-					msgList2.setLastTime(addTime);
-					msgList2.setNum(msgList2.getNum() + 1);
-					msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-					msgListService.updateByUserIdAndGroupId(msgList2);
-				}
+			//群用户ID
+			Integer groupUserId = groupUserRelation.getUserId();
+
+			//--------------创建群组聊天记录,每人一条，自己除外--------------
+			if (groupUserId != userId) {
+				//其他用户收到的信息
+				GroupMessage groupMsg = new GroupMessage();
+				groupMsg.setUserId(groupUserId);
+				groupMsg.setGroupId(groupId);
+				groupMsg.setContent(content);
+				groupMsg.setAddTime(addTime);
+				groupMsg.setContentType(contentType);
+				groupMsg.setStatus(1);
+				groupMsgService.add(groupMsg);
+			}
+
+			//--------------创建通知--------------
+			MessageList msgList = msgListService.findByUserIdAndGroupId(groupUserId, groupId);
+
+			int num = 0;//我的通知数为0
+			if (groupUserId != userId && msgList == null) {//其他用户的通知数,当不存在通知的时候,num=1
+				num = 1;
+			} else if (groupUserId != userId && msgList != null) {//其他用户的通知数,当存在通知的时候 ,num+1
+				num = msgList.getNum() + 1;
+			}
+			//创建
+			if (msgList == null) {
+				msgList = new MessageList();
+				msgList.setUserId(userId);
+				msgList.setGroupId(groupId);
+				msgList.setContent(content);
+				msgList.setLastTime(addTime);
+				msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+				msgList.setType(2);
+				msgList.setNum(num);
+				msgListService.add(msgList);
+			} else {//更新
+				msgList.setContent(content);
+				msgList.setLastTime(addTime);
+				msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+				msgList.setNum(num);
+				msgListService.updateByUserIdAndGroupId(msgList);
 			}
 		}
 
@@ -120,13 +114,16 @@ public class GroupMsgController {
 		Integer userId = ParamUtils.getInt(request, "userId");
 		Integer groupId = ParamUtils.getInt(request, "groupId");
 		List<GroupMessage> list = groupMsgService.findByGroupIdAndUserId(groupId, userId);
+		for (GroupMessage groupMessage : list) {
+			groupMsgService.update(groupMessage.getId(), 2);
+		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("succ", "1");
 		map.put("data", list);
 
 		MessageList msgList = msgListService.findByUserIdAndGroupId(userId, groupId);
-		if (msgList != null) {
+		if (msgList != null && msgList.getNum() != 0) {
 			msgList.setLastTime(new Date());
 			msgList.setNum(0);
 			msgListService.update(msgList);

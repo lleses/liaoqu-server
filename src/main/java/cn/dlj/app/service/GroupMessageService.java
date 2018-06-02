@@ -25,6 +25,13 @@ public class GroupMessageService {
 		}
 		return null;
 	}
+	
+	@Transactional
+	public void update(Integer id, Integer status) {
+		if (id != null && status != null) {
+			dao.update(id, status);
+		}
+	}
 
 	public List<GroupMessage> findByGroupIdAndUserId(Integer groupId, Integer userId) {
 		List<GroupMessage> list = new ArrayList<GroupMessage>();

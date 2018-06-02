@@ -46,7 +46,6 @@ public class MsgController {
 		Integer friendId = ParamUtils.getInt(request, "friendId");
 		List<Message> list = msgService.findByUserIdAndFriendIdAndStatus(userId, friendId, 1);
 		for (Message message : list) {
-			//TODO 好像没用到，准备删除
 			msgService.update(message.getId(), 2);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -54,7 +53,7 @@ public class MsgController {
 		map.put("data", list);
 
 		MessageList msgList = msgListService.findByUserIdAndFriendId(userId, friendId);
-		if (msgList != null) {
+		if (msgList != null && msgList.getNum() != 0) {
 			msgList.setLastTime(new Date());
 			msgList.setNum(0);
 			msgListService.update(msgList);
@@ -130,7 +129,5 @@ public class MsgController {
 		map.put("succ", "1");
 		return StringUtils.json(map);
 	}
-
-	
 
 }

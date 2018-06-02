@@ -7,12 +7,18 @@
 		values(#{userId},#{groupId},#{content},#{addTime},#{contentType},#{status})
 	</insert>
 	
+	<update id="update" parameterType="cn.dlj.app.entity.GroupMessage" >
+		update t_group_message set
+			status= #{status}
+		where id=#{id}
+	</update>
+	
 	<select id="findByGroupIdAndUserId" resultType="cn.dlj.app.entity.GroupMessage">
 		select
 				*
 		from t_group_message
 		<where>
-			groupId=#{groupId} and userId != #{userId}
+			groupId=#{groupId} and userId = #{userId} and status = 1
 		</where>
 		order by addTime asc
 	</select>
