@@ -21,7 +21,7 @@ public class User {
 	private String organization;
 	/** 签名 */
 	private String signature;
-	/** 头像 */
+	/** 头像 ( 准备删除 ) */
 	private String headImg;
 	/** 邮箱 */
 	private String email;

@@ -1,5 +1,8 @@
 package cn.dlj.app.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.User;
 import cn.dlj.app.service.UserService;
+import cn.dlj.utils.Config;
+import cn.dlj.utils.FileUtils;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.SmsUtils;
 import cn.dlj.utils.StringUtils;
@@ -23,6 +28,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	/** 头像保存地址 */
+	public static final String HEAD_IMG_UPLOAD_PATH = Config.get("head.img.upload.path");
 
 	/**
 	 * 发送短信
@@ -61,14 +68,23 @@ public class UserController {
 		user.setPhone(phone);
 		user.setName(name);
 		user.setLockPwd(pwd);
-		user.setHeadImg("headImg/defaultHeadImg.jpg");
 		Integer userId = userService.add(user);
+
 		map.put("succ", "1");
 		map.put("id", userId);
 		map.put("username", user.getUsername());
 		map.put("name", user.getName());
 		map.put("phone", user.getPhone());
 		map.put("headImg", user.getHeadImg());
+
+		try {
+			FileInputStream fis = new FileInputStream(HEAD_IMG_UPLOAD_PATH + "defaultHeadImg.jpg");
+			File file = new File(HEAD_IMG_UPLOAD_PATH + userId + ".jpg");
+			FileUtils.copyFile(fis, file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		return StringUtils.json(map);
 	}
 
