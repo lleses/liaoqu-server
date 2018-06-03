@@ -1,5 +1,6 @@
 package cn.dlj.app.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,6 +22,18 @@ public class GroupMessage {
 	private Date addTime;
 	/** 状态(1:未处理 2:已处理) **/
 	private Integer status;
+
+	/**
+	 * 
+	 */
+	public String getAddTimeStr() {
+		String format = "";
+		if (addTime != null) {
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			format = simple.format(addTime);
+		}
+		return format;
+	}
 
 	/**
 	 * 

@@ -125,4 +125,53 @@ public class GroupController {
 		return StringUtils.json(map);
 	}
 
+	/**
+	 * 搜索群组
+	 */
+	@RequestMapping("searchGroup")
+	@ResponseBody
+	public String searchGroup(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer userId = ParamUtils.getInt(request, "userId");
+		Integer groupId = ParamUtils.getInt(request, "groupId");
+		Group group = groupService.findById(groupId);
+		if (group == null) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+		String status = "0";//未加入
+		GroupUserRelation groupUserRelation = groupUserRelationService.findByUserIdAndGroupId(userId, groupId);
+		if (groupUserRelation != null) {
+			status = "1";//已加入
+		}
+		map.put("succ", "1");
+		map.put("data", group);
+		map.put("status", status);
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 加入群组
+	 */
+	@RequestMapping("addGroup")
+	@ResponseBody
+	public String addGroup(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer groupId = ParamUtils.getInt(request, "groupId");
+		Integer userId = ParamUtils.getInt(request, "userId");
+
+		GroupUserRelation group = groupUserRelationService.findByUserIdAndGroupId(userId, groupId);
+		if (group == null) {
+			GroupUserRelation groupUserRelation = new GroupUserRelation();
+			groupUserRelation.setGroupId(groupId);
+			groupUserRelation.setUserId(userId);
+			groupUserRelation.setAddTime(new Date());
+			groupUserRelationService.add(groupUserRelation);
+		}
+
+		map.put("succ", "1");
+		map.put("data", group);
+		return StringUtils.json(map);
+	}
+
 }

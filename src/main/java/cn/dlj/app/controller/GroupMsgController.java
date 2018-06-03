@@ -59,7 +59,7 @@ public class GroupMsgController {
 			Integer groupUserId = groupUserRelation.getUserId();
 
 			//--------------创建群组聊天记录,每人一条，自己除外--------------
-			if (groupUserId != userId) {
+			if (!userId.equals(groupUserId)) {
 				//其他用户收到的信息
 				GroupMessage groupMsg = new GroupMessage();
 				groupMsg.setUserId(groupUserId);
@@ -75,15 +75,15 @@ public class GroupMsgController {
 			MessageList msgList = msgListService.findByUserIdAndGroupId(groupUserId, groupId);
 
 			int num = 0;//我的通知数为0
-			if (groupUserId != userId && msgList == null) {//其他用户的通知数,当不存在通知的时候,num=1
+			if (!userId.equals(groupUserId) && msgList == null) {//其他用户的通知数,当不存在通知的时候,num=1
 				num = 1;
-			} else if (groupUserId != userId && msgList != null) {//其他用户的通知数,当存在通知的时候 ,num+1
+			} else if (!userId.equals(groupUserId) && msgList != null) {//其他用户的通知数,当存在通知的时候 ,num+1
 				num = msgList.getNum() + 1;
 			}
 			//创建
 			if (msgList == null) {
 				msgList = new MessageList();
-				msgList.setUserId(userId);
+				msgList.setUserId(groupUserId);
 				msgList.setGroupId(groupId);
 				msgList.setContent(content);
 				msgList.setLastTime(addTime);
@@ -126,7 +126,7 @@ public class GroupMsgController {
 		if (msgList != null && msgList.getNum() != 0) {
 			msgList.setLastTime(new Date());
 			msgList.setNum(0);
-			msgListService.update(msgList);
+			msgListService.updateByUserIdAndGroupId(msgList);
 		}
 		return StringUtils.json(map);
 	}
