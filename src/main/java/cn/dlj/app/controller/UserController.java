@@ -55,6 +55,7 @@ public class UserController {
 		String username = ParamUtils.getStr(request, "username");
 		String pwd = ParamUtils.getStr(request, "pwd");
 		String name = ParamUtils.getStr(request, "name");
+		String lockPwd = ParamUtils.getStr(request, "lockPwd");
 		Map<String, Object> map = new HashMap<String, Object>();
 		User user = userService.getByUsername(username);
 		if (user != null) {
@@ -67,7 +68,7 @@ public class UserController {
 		user.setPwd(Tool.md5Encode(pwd));
 		user.setPhone(phone);
 		user.setName(name);
-		user.setLockPwd(pwd);
+		user.setLockPwd(lockPwd);
 		Integer userId = userService.add(user);
 
 		map.put("succ", "1");
@@ -109,17 +110,7 @@ public class UserController {
 			return StringUtils.json(map);
 		}
 		map.put("succ", "1");
-		map.put("id", user.getId());
-		map.put("username", user.getUsername());
-		map.put("pwd", user.getLockPwd());
-		map.put("name", user.getName());
-		map.put("phone", user.getPhone());
-		map.put("sex", user.getSex());
-		map.put("organization", user.getOrganization());
-		map.put("signature", user.getSignature());
-		map.put("headImg", user.getHeadImg());
-		map.put("email", user.getEmail());
-		map.put("lockPwd", user.getLockPwd());
+		map.put("user", user);
 		return StringUtils.json(map);//跳转内容页
 	}
 
@@ -157,6 +148,10 @@ public class UserController {
 			user.setSignature(content);
 		} else if ("email".equals(type)) {//邮箱
 			user.setEmail(content);
+		} else if ("pwd".equals(type)) {//密码
+			user.setPwd(Tool.md5Encode(content));
+		} else if ("lockPwd".equals(type)) {//解锁密码
+			user.setLockPwd(content);
 		} else {
 			map.put("succ", "-1");
 			map.put("msg", "修改失败");
