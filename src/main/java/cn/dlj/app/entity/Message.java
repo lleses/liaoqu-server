@@ -24,6 +24,10 @@ public class Message {
 	private Date addTime;
 	/** 状态(1:未处理 2:已处理) (准备删除) **/
 	private Integer status;
+	/** 文件路径 **/
+	private String filePath;
+	/** 录音时长 **/
+	private Integer duration;
 
 	/**
 	 * 
@@ -147,6 +151,34 @@ public class Message {
 	 */
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	/**
+	 * 
+	 */
+	public String getFilePath() {
+		return filePath;
+	}
+
+	/**
+	 * 
+	 */
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getDuration() {
+		return duration;
+	}
+
+	/**
+	 * 
+	 */
+	public void setDuration(Integer duration) {
+		this.duration = duration;
 	}
 
 }

@@ -1,6 +1,7 @@
 package cn.dlj.app.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.dlj.app.dao.MessageDao;
 import cn.dlj.app.entity.Message;
+import cn.dlj.app.entity.MessageList;
+import cn.dlj.utils.IdUtils;
+import cn.dlj.utils.Tool;
 
-/**
- * 消息
- */
 @Service
 @Transactional(readOnly = true)
 public class MessageService {
 
 	@Autowired
 	private MessageDao dao;
+	@Autowired
+	private MessageListService msgListService;
 
 	@Transactional
 	public Integer add(Message message) {
@@ -44,4 +47,96 @@ public class MessageService {
 		return list;
 	}
 
+	/**
+	 * 处理发送好友文本内容
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param content
+	 * @param addTime
+	 * @param contentType
+	 */
+	public void handleSendFriendText(Integer userId, Integer friendId, String content, Date addTime, int contentType) {
+		handleSendFriend(userId, friendId, content, addTime, contentType, null, null);
+	}
+
+	/**
+	 * 处理发送好友录音
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param addTime
+	 * @param contentType
+	 * @param filePath
+	 * @param duration
+	 */
+	public void handleSendFriendRecord(Integer userId, Integer friendId, Date addTime, int contentType, String filePath, Integer duration) {
+		handleSendFriend(userId, friendId, "[语音]", addTime, contentType, filePath, duration);
+	}
+
+	/**
+	 * 处理发送好友记录
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param content
+	 * @param addTime
+	 * @param contentType
+	 * @param filePath
+	 * @param duration
+	 */
+	private void handleSendFriend(Integer userId, Integer friendId, String content, Date addTime, int contentType, String filePath, Integer duration) {
+		//好友收到的信息
+		Message message = new Message();
+		message.setUserId(friendId);
+		message.setFriendId(userId);
+		message.setContent(content);
+		message.setFilePath(filePath);//文件路径
+		message.setDuration(duration);//录音时长
+		message.setType(2);//接收类型(1:我发出的 2:我收到的 )
+		message.setAddTime(addTime);
+		message.setContentType(contentType);
+		message.setStatus(1);
+		dao.add(message);
+
+		//我发出的
+		MessageList msgList = msgListService.findByUserIdAndFriendId(userId, friendId);
+		if (msgList == null) {
+			msgList = new MessageList();
+			msgList.setUserId(userId);
+			msgList.setFriendId(friendId);
+			msgList.setContent(content);
+			msgList.setLastTime(addTime);
+			msgList.setNum(0);
+			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList.setType(1);
+			msgListService.add(msgList);
+		} else {
+			msgList.setContent(content);
+			msgList.setLastTime(addTime);
+			msgList.setNum(0);
+			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgListService.update(msgList);
+		}
+
+		//好友收到的
+		MessageList msgList2 = msgListService.findByUserIdAndFriendId(friendId, userId);
+		if (msgList2 == null) {
+			msgList2 = new MessageList();
+			msgList2.setUserId(friendId);
+			msgList2.setFriendId(userId);
+			msgList2.setContent(content);
+			msgList2.setLastTime(addTime);
+			msgList2.setNum(1);
+			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList2.setType(1);
+			msgListService.add(msgList2);
+		} else {
+			msgList2.setContent(content);
+			msgList2.setLastTime(addTime);
+			msgList2.setNum(msgList2.getNum() + 1);
+			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgListService.update(msgList2);
+		}
+	}
 }
