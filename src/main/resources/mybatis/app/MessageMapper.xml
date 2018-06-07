@@ -3,8 +3,8 @@
 <mapper namespace="cn.dlj.app.dao.MessageDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.Message" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_message(userId,friendId,content,type,addTime,contentType,status)
-		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType},#{status})
+		insert into t_message(userId,friendId,content,type,addTime,contentType,status,filePath,duration)
+		values(#{userId},#{friendId},#{content},#{type},#{addTime},#{contentType},#{status},#{filePath},#{duration})
 	</insert>
 	
 	<update id="update" parameterType="cn.dlj.app.entity.Message" >
@@ -15,14 +15,7 @@
 	
 	<select id="findByUserIdAndFriendIdAndStatus" resultType="cn.dlj.app.entity.Message">
 		select
-				id 					as "id",
-				userId 				as "userId",
-				friendId 			as "friendId",
-				content 			as "content",
-				type 				as "type",
-				contentType 		as "contentType",
-				status 				as "status",
-				addTime				as "addTime"
+				*
 		from t_message
 		<where>
 			userId=#{userId} and friendId=#{friendId} and status=#{status}
