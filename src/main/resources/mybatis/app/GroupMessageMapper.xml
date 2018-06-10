@@ -3,8 +3,8 @@
 <mapper namespace="cn.dlj.app.dao.GroupMessageDao">
 
 	<insert id="add" parameterType="cn.dlj.app.entity.GroupMessage" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
-		insert into t_group_message(userId,groupId,content,addTime,contentType,status,filePath,duration)
-		values(#{userId},#{groupId},#{content},#{addTime},#{contentType},#{status},#{filePath},#{duration})
+		insert into t_group_message(userId,groupId,content,addTime,contentType,status,filePath,duration,positionX,positionY,positionAddress)
+		values(#{userId},#{groupId},#{content},#{addTime},#{contentType},#{status},#{filePath},#{duration},#{positionX},#{positionY},#{positionAddress})
 	</insert>
 	
 	<update id="update" parameterType="cn.dlj.app.entity.GroupMessage" >
