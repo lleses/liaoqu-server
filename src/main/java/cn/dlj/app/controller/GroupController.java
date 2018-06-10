@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.Group;
 import cn.dlj.app.entity.GroupUserRelation;
+import cn.dlj.app.entity.MessageList;
 import cn.dlj.app.service.GroupService;
 import cn.dlj.app.service.GroupUserRelationService;
+import cn.dlj.app.service.MessageListService;
 import cn.dlj.utils.Config;
 import cn.dlj.utils.FileUtils;
+import cn.dlj.utils.IdUtils;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
+import cn.dlj.utils.Tool;
 
 @RequestMapping("app/group")
 @Controller
@@ -27,6 +31,8 @@ public class GroupController {
 
 	@Autowired
 	private GroupService groupService;
+	@Autowired
+	private MessageListService msgListService;
 	@Autowired
 	private GroupUserRelationService groupUserRelationService;
 	public static final String GROUP_IMG_UPLOAD_PATH = Config.get("group.img.upload.path");
@@ -119,6 +125,19 @@ public class GroupController {
 				groupUserRelation.setUserId(friendId);
 				groupUserRelation.setAddTime(new Date());
 				groupUserRelationService.add(groupUserRelation);
+				
+				MessageList msgList = msgListService.findByUserIdAndGroupId(friendId, groupId);
+				if (msgList == null) {
+					msgList = new MessageList();
+					msgList.setUserId(friendId);
+					msgList.setGroupId(groupId);
+					msgList.setContent("欢迎你加入了群聊");
+					msgList.setLastTime(new Date());
+					msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+					msgList.setType(2);
+					msgList.setNum(1);
+					msgListService.add(msgList);
+				}
 			}
 		}
 		map.put("succ", "1");

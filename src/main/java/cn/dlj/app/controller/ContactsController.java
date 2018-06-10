@@ -19,8 +19,10 @@ import cn.dlj.app.entity.UserFriendRelation;
 import cn.dlj.app.service.FriendRequestsService;
 import cn.dlj.app.service.MessageListService;
 import cn.dlj.app.service.UserService;
+import cn.dlj.utils.IdUtils;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
+import cn.dlj.utils.Tool;
 
 /**
  * 通讯录
@@ -124,6 +126,35 @@ public class ContactsController {
 			friendRequestsService.addUserFriend(userFriendRelation2);
 		}
 
+		//同意好友申请后，在通知页显示好友
+
+		//我发出的
+		MessageList msgList = msgListService.findByUserIdAndFriendId(userId, friendId);
+		if (msgList == null) {
+			msgList = new MessageList();
+			msgList.setUserId(userId);
+			msgList.setFriendId(friendId);
+			msgList.setContent("你已添加了该好友");
+			msgList.setLastTime(new Date());
+			msgList.setNum(0);
+			msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList.setType(1);
+			msgListService.add(msgList);
+		}
+
+		//好友收到的
+		MessageList msgList2 = msgListService.findByUserIdAndFriendId(friendId, userId);
+		if (msgList2 == null) {
+			msgList2 = new MessageList();
+			msgList2.setUserId(friendId);
+			msgList2.setFriendId(userId);
+			msgList2.setContent("我通过了你的朋友验证请求");
+			msgList2.setLastTime(new Date());
+			msgList2.setNum(1);
+			msgList2.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
+			msgList2.setType(1);
+			msgListService.add(msgList2);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("succ", "1");
 		return StringUtils.json(map);
