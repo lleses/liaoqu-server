@@ -124,4 +124,74 @@ public class GroupMsgController {
 		return StringUtils.json(map);
 	}
 
+	/**
+	 * 发送群组图片
+	 */
+	@RequestMapping("sendPhoto")
+	@ResponseBody
+	public String sendPhoto(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (file.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+
+		String filePath = null;
+		try {
+			InputStream fis = file.getInputStream();
+			filePath = "groupMsg/photo/" + IdUtils.id32() + ".jpg";
+			File outFile = new File(UPLOAD_PATH + filePath);
+			FileUtils.copyFile(fis, outFile);
+
+			Integer userId = ParamUtils.getInt(request, "userId");
+			Integer groupId = ParamUtils.getInt(request, "groupId");
+			Integer contentType = 2;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 )
+			Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
+			groupMsgService.handleSendGroupPhoto(groupId, userId, addTime, contentType, filePath);
+			map.put("succ", "1");
+			map.put("filePath", filePath);
+		} catch (IOException e) {
+			map.put("succ", "-1");
+			e.printStackTrace();
+		}
+
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 发送群组定位
+	 */
+	@RequestMapping("sendPosition")
+	@ResponseBody
+	public String sendPosition(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (file.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+
+		String filePath = null;
+		try {
+			InputStream fis = file.getInputStream();
+			filePath = "groupMsg/position/" + IdUtils.id32() + ".jpg";
+			File outFile = new File(UPLOAD_PATH + filePath);
+			FileUtils.copyFile(fis, outFile);
+
+			Integer userId = ParamUtils.getInt(request, "userId");
+			Integer groupId = ParamUtils.getInt(request, "groupId");
+			String positionX = ParamUtils.getStr(request, "positionX");
+			String positionY = ParamUtils.getStr(request, "positionY");
+			String positionAddress = ParamUtils.getStr(request, "positionAddress");
+			Integer contentType = 6;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 6:定位)
+			Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
+			groupMsgService.handleSendGroupPosition(groupId, userId, addTime, contentType, filePath, positionX, positionY, positionAddress);
+			map.put("succ", "1");
+			map.put("filePath", filePath);
+		} catch (IOException e) {
+			map.put("succ", "-1");
+			e.printStackTrace();
+		}
+
+		return StringUtils.json(map);
+	}
 }

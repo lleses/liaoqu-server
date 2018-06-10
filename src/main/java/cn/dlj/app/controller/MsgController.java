@@ -124,4 +124,75 @@ public class MsgController {
 		return StringUtils.json(map);
 	}
 
+	/**
+	 * 给好友发图片
+	 */
+	@RequestMapping("sendPhoto")
+	@ResponseBody
+	public String sendPhoto(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (file.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+
+		String filePath = null;
+		try {
+			InputStream fis = file.getInputStream();
+			filePath = "msg/photo/" + IdUtils.id32() + ".jpg";
+			File outFile = new File(UPLOAD_PATH + filePath);
+			FileUtils.copyFile(fis, outFile);
+
+			Integer userId = ParamUtils.getInt(request, "userId");
+			Integer friendId = ParamUtils.getInt(request, "friendId");
+			Integer contentType = 2;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 )
+			Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
+			msgService.handleSendFriendPhoto(userId, friendId, addTime, contentType, filePath);
+			map.put("succ", "1");
+			map.put("filePath", filePath);
+		} catch (IOException e) {
+			map.put("succ", "-1");
+			e.printStackTrace();
+		}
+
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 给好友发定位
+	 */
+	@RequestMapping("sendPosition")
+	@ResponseBody
+	public String sendPosition(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (file.isEmpty()) {
+			map.put("succ", "-1");
+			return StringUtils.json(map);
+		}
+
+		String filePath = null;
+		try {
+			InputStream fis = file.getInputStream();
+			filePath = "msg/position/" + IdUtils.id32() + ".png";
+			File outFile = new File(UPLOAD_PATH + filePath);
+			FileUtils.copyFile(fis, outFile);
+
+			Integer userId = ParamUtils.getInt(request, "userId");
+			Integer friendId = ParamUtils.getInt(request, "friendId");
+			String positionX = ParamUtils.getStr(request, "positionX");
+			String positionY = ParamUtils.getStr(request, "positionY");
+			String positionAddress = ParamUtils.getStr(request, "positionAddress");
+			Integer contentType = 6;//内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 6:定位)
+			Date addTime = ParamUtils.paramDate(request, "addTime", "yyyy-MM-dd hh:mm:ss", false);
+			msgService.handleSendFriendPosition(userId, friendId, addTime, contentType, filePath, positionX, positionY, positionAddress);
+			map.put("succ", "1");
+			map.put("filePath", filePath);
+		} catch (IOException e) {
+			map.put("succ", "-1");
+			e.printStackTrace();
+		}
+
+		return StringUtils.json(map);
+	}
+
 }

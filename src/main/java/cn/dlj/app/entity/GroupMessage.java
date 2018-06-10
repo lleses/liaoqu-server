@@ -16,7 +16,7 @@ public class GroupMessage {
 	private Integer groupId;
 	/** 内容 **/
 	private String content;
-	/** 内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 ) **/
+	/** 内容类型(1:文本 2:图片 3:录音 4:视频 5:文件 6:定位 ) **/
 	private Integer contentType;
 	/** 创建时间 **/
 	private Date addTime;
@@ -26,6 +26,13 @@ public class GroupMessage {
 	private String filePath;
 	/** 录音时长 **/
 	private Integer duration;
+
+	/** 定位x坐标 **/
+	private String positionX;
+	/** 定位y坐标 **/
+	private String positionY;
+	/** 定位地址 **/
+	private String positionAddress;
 
 	/**
 	 * 
@@ -163,6 +170,48 @@ public class GroupMessage {
 	 */
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * 定位x坐标
+	 */
+	public String getPositionX() {
+		return positionX;
+	}
+
+	/**
+	 * 定位x坐标
+	 */
+	public void setPositionX(String positionX) {
+		this.positionX = positionX;
+	}
+
+	/**
+	 * 定位y坐标
+	 */
+	public String getPositionY() {
+		return positionY;
+	}
+
+	/**
+	 * 定位y坐标
+	 */
+	public void setPositionY(String positionY) {
+		this.positionY = positionY;
+	}
+
+	/**
+	 * 定位地址
+	 */
+	public String getPositionAddress() {
+		return positionAddress;
+	}
+
+	/**
+	 * 定位地址
+	 */
+	public void setPositionAddress(String positionAddress) {
+		this.positionAddress = positionAddress;
 	}
 
 }

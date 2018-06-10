@@ -57,7 +57,7 @@ public class MessageService {
 	 * @param contentType
 	 */
 	public void handleSendFriendText(Integer userId, Integer friendId, String content, Date addTime, int contentType) {
-		handleSendFriend(userId, friendId, content, addTime, contentType, null, null);
+		handleSendFriend(userId, friendId, content, addTime, contentType, null, null, null, null, null);
 	}
 
 	/**
@@ -71,7 +71,28 @@ public class MessageService {
 	 * @param duration
 	 */
 	public void handleSendFriendRecord(Integer userId, Integer friendId, Date addTime, int contentType, String filePath, Integer duration) {
-		handleSendFriend(userId, friendId, "[语音]", addTime, contentType, filePath, duration);
+		handleSendFriend(userId, friendId, "[语音]", addTime, contentType, filePath, duration, null, null, null);
+	}
+
+	/**
+	 * 处理发送好友图片
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param addTime
+	 * @param contentType
+	 * @param filePath
+	 */
+	public void handleSendFriendPhoto(Integer userId, Integer friendId, Date addTime, int contentType, String filePath) {
+		handleSendFriend(userId, friendId, "[图片]", addTime, contentType, filePath, null, null, null, null);
+	}
+
+	/**
+	 * 处理发送好友定位
+	 * 
+	 */
+	public void handleSendFriendPosition(Integer userId, Integer friendId, Date addTime, int contentType, String filePath, String positionX, String positionY, String positionAddress) {
+		handleSendFriend(userId, friendId, "[位置]", addTime, contentType, filePath, null, positionX, positionY, positionAddress);
 	}
 
 	/**
@@ -85,7 +106,7 @@ public class MessageService {
 	 * @param filePath
 	 * @param duration
 	 */
-	private void handleSendFriend(Integer userId, Integer friendId, String content, Date addTime, int contentType, String filePath, Integer duration) {
+	private void handleSendFriend(Integer userId, Integer friendId, String content, Date addTime, int contentType, String filePath, Integer duration, String positionX, String positionY, String positionAddress) {
 		//好友收到的信息
 		Message message = new Message();
 		message.setUserId(friendId);
@@ -97,6 +118,9 @@ public class MessageService {
 		message.setAddTime(addTime);
 		message.setContentType(contentType);
 		message.setStatus(1);
+		message.setPositionX(positionX);//定位x坐标
+		message.setPositionY(positionY);//定位y坐标
+		message.setPositionAddress(positionAddress);//定位地址
 		dao.add(message);
 
 		//我发出的

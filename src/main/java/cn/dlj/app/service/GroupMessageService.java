@@ -55,7 +55,7 @@ public class GroupMessageService {
 	 * 
 	 */
 	public void handleSendGroupText(Integer groupId, Integer userId, String content, Date addTime, int contentType) {
-		handleSendGroup(groupId, userId, content, addTime, contentType, null, null);
+		handleSendGroup(groupId, userId, content, addTime, contentType, null, null, null, null, null);
 	}
 
 	/**
@@ -63,14 +63,30 @@ public class GroupMessageService {
 	 * 
 	 */
 	public void handleSendGroupRecord(Integer groupId, Integer userId, Date addTime, int contentType, String filePath, Integer duration) {
-		handleSendGroup(groupId, userId, "[语音]", addTime, contentType, filePath, duration);
+		handleSendGroup(groupId, userId, "[语音]", addTime, contentType, filePath, duration, null, null, null);
+	}
+
+	/**
+	 * 处理发送群组图片
+	 * 
+	 */
+	public void handleSendGroupPhoto(Integer groupId, Integer userId, Date addTime, int contentType, String filePath) {
+		handleSendGroup(groupId, userId, "[图片]", addTime, contentType, filePath, null, null, null, null);
+	}
+
+	/**
+	 * 处理发送群组定位
+	 * 
+	 */
+	public void handleSendGroupPosition(Integer groupId, Integer userId, Date addTime, int contentType, String filePath, String positionX, String positionY, String positionAddress) {
+		handleSendGroup(groupId, userId, "[位置]", addTime, contentType, filePath, null, positionX, positionY, positionAddress);
 	}
 
 	/**
 	 * 处理发送群组记录
 	 * 
 	 */
-	private void handleSendGroup(Integer groupId, Integer userId, String content, Date addTime, int contentType, String filePath, Integer duration) {
+	private void handleSendGroup(Integer groupId, Integer userId, String content, Date addTime, int contentType, String filePath, Integer duration, String positionX, String positionY, String positionAddress) {
 		//获取群用户
 		List<GroupUserRelation> list = groupUserRelationService.findByGroupId(groupId);
 		for (GroupUserRelation groupUserRelation : list) {
@@ -89,6 +105,9 @@ public class GroupMessageService {
 				groupMsg.setFilePath(filePath);
 				groupMsg.setDuration(duration);
 				groupMsg.setStatus(1);
+				groupMsg.setPositionX(positionX);//定位x坐标
+				groupMsg.setPositionY(positionY);//定位y坐标
+				groupMsg.setPositionAddress(positionAddress);//定位地址
 				dao.add(groupMsg);
 			}
 
