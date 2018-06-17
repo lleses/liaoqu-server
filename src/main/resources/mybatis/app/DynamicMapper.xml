@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dlj.app.dao.DynamicDao">
+
+	<insert id="add" parameterType="cn.dlj.app.entity.Dynamic" keyColumn="id" useGeneratedKeys="true" keyProperty="id">
+		insert into t_dynamic(userId,addTime,content,stencilType,imgNum,authority,commentNum,praiseNum,img1,img2,img3,img4,img5,img6,img7)
+		values(#{userId},#{addTime},#{content},#{stencilType},#{imgNum},#{authority},#{commentNum},#{praiseNum},#{img1},#{img2},#{img3},#{img4},#{img5},#{img6},#{img7})
+	</insert>
+	
+	<!-- 更新评论数 -->
+	<update id="updateCommentNum" >
+		update t_dynamic set
+			commentNum= (
+				select count(*) from t_dynamic_comment where dynamicId=#{id}
+				)
+		where id=#{id}
+	</update>
+	
+	<!-- 更新点赞数 -->
+	<update id="updatePraiseNum" >
+		update t_dynamic set
+			praiseNum= (
+				select count(*) from t_dynamic_praise where dynamicId=#{id}
+				)
+		where id=#{id}
+	</update>
+	
+	
+	<select id="getByUserId" resultType="cn.dlj.app.entity.Dynamic">
+		select 	d.* ,
+				u.name 				as "userName",
+				u.signature 		as "userSignature",
+				p.id 				as "praiseStatus"
+		from t_dynamic d
+		left join t_user u on u.id=d.userId
+		left join t_dynamic_praise p on d.id=p.dynamicId and p.userId=#{userId}
+		<where> 
+			d.userId in  (
+				select r.friendId from t_user_friend_relation r where r.userId=#{userId}
+				)
+			or d.userId =#{userId}
+		</where>
+		order by d.addTime desc
+	</select>
+	
+	<select id="getByIdAndUserId" resultType="cn.dlj.app.entity.Dynamic">
+		select 	d.* ,
+				u.name 				as "userName",
+				u.signature 		as "userSignature",
+				p.id 				as "praiseStatus"
+		from t_dynamic d
+		left join t_user u on u.id=d.userId
+		left join t_dynamic_praise p on d.id=p.dynamicId and p.userId=#{userId}
+		<where> 
+			d.id = #{id}
+		</where>
+	</select>
+	
+</mapper>
