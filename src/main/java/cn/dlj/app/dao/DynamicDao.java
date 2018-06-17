@@ -11,6 +11,12 @@ import cn.dlj.utils.MyBatisDao;
 public interface DynamicDao {
 
 	void add(Dynamic user);
-	
+
+	void updateCommentNum(@Param("id") Integer id);
+
+	void updatePraiseNum(@Param("id") Integer id);
+
 	List<Dynamic> getByUserId(@Param("userId") Integer userId);
+
+	Dynamic getByIdAndUserId(@Param("id") Integer id,@Param("userId") Integer userId);
 }

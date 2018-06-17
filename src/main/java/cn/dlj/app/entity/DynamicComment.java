@@ -1,5 +1,6 @@
 package cn.dlj.app.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,6 +18,21 @@ public class DynamicComment {
 	private Date addTime;
 	/** 评论内容 */
 	private String content;
+
+	/** 评论人名称 */
+	transient private String userName;
+
+	/**
+	 * 
+	 */
+	public String getAddTimeStr() {
+		String format = "";
+		if (addTime != null) {
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			format = simple.format(addTime);
+		}
+		return format;
+	}
 
 	/**
 	 * 
@@ -86,6 +102,20 @@ public class DynamicComment {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	/**
+	 * 
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * 
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

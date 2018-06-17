@@ -1,5 +1,6 @@
 package cn.dlj.app.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -44,6 +45,20 @@ public class Dynamic {
 	transient private String userName;
 	/** 用户签名 */
 	transient private String userSignature;
+	/** 点赞状态(null:未点赞 不为null:已点赞) */
+	transient private Integer praiseStatus;
+
+	/**
+	 * 
+	 */
+	public String getAddTimeStr() {
+		String format = "";
+		if (addTime != null) {
+			SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			format = simple.format(addTime);
+		}
+		return format;
+	}
 
 	/**
 	 * 
@@ -295,6 +310,20 @@ public class Dynamic {
 	 */
 	public void setUserSignature(String userSignature) {
 		this.userSignature = userSignature;
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getPraiseStatus() {
+		return praiseStatus;
+	}
+
+	/**
+	 * 
+	 */
+	public void setPraiseStatus(Integer praiseStatus) {
+		this.praiseStatus = praiseStatus;
 	}
 
 }

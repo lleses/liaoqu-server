@@ -12,6 +12,9 @@ public class DynamicPraise {
 	/** 点赞人ID */
 	private Integer userId;
 
+	/** 评论人名称 */
+	transient private String userName;
+
 	/**
 	 * 
 	 */
@@ -52,6 +55,20 @@ public class DynamicPraise {
 	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	/**
+	 * 
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * 
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

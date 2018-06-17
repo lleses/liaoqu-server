@@ -36,12 +36,34 @@ public class DynamicService {
 		return null;
 	}
 
+	@Transactional
+	public void updateCommentNum(Integer id) {
+		if (id != null) {
+			dao.updateCommentNum(id);
+		}
+	}
+
+	@Transactional
+	public void updatePraiseNum(Integer id) {
+		if (id != null) {
+			dao.updatePraiseNum(id);
+		}
+	}
+
 	public List<Dynamic> getByUserId(Integer userId) {
 		List<Dynamic> list = new ArrayList<Dynamic>();
 		if (userId != null) {
 			list = dao.getByUserId(userId);
 		}
 		return list;
+	}
+
+	public Dynamic getByIdAndUserId(Integer id, Integer userId) {
+		if (id != null && userId != null) {
+			Dynamic dynamic = dao.getByIdAndUserId(id, userId);
+			return dynamic;
+		}
+		return null;
 	}
 
 	public void handleAdd(Integer userId, Date addTime, String content, Integer stencilType, Integer imgNum, Integer authority, String imgsBasc64) throws IOException {
