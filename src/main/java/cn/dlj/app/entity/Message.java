@@ -26,7 +26,7 @@ public class Message {
 	private Integer status;
 	/** 文件路径 **/
 	private String filePath;
-	/** 录音时长 **/
+	/** 录音时长 or 视频时长 **/
 	private Integer duration;
 
 	/** 定位x坐标 **/

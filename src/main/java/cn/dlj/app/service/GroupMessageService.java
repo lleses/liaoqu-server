@@ -74,6 +74,11 @@ public class GroupMessageService {
 		handleSendGroup(groupId, userId, "[图片]", addTime, contentType, filePath, null, null, null, null);
 	}
 
+	/** 处理发送群组图片 */
+	public void handleSendGroupVideo(Integer groupId, Integer userId, Date addTime, int contentType, String filePath, Integer duration) {
+		handleSendGroup(groupId, userId, "[视频]", addTime, contentType, filePath, duration, null, null, null);
+	}
+
 	/**
 	 * 处理发送群组定位
 	 * 

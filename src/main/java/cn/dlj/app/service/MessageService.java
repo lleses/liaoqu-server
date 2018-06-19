@@ -73,6 +73,20 @@ public class MessageService {
 	public void handleSendFriendRecord(Integer userId, Integer friendId, Date addTime, int contentType, String filePath, Integer duration) {
 		handleSendFriend(userId, friendId, "[语音]", addTime, contentType, filePath, duration, null, null, null);
 	}
+	
+	/**
+	 * 处理发送好友视频
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param addTime
+	 * @param contentType
+	 * @param filePath
+	 * @param duration
+	 */
+	public void handleSendFriendVideo(Integer userId, Integer friendId, Date addTime, int contentType, String filePath, Integer duration) {
+		handleSendFriend(userId, friendId, "[视频]", addTime, contentType, filePath, duration, null, null, null);
+	}
 
 	/**
 	 * 处理发送好友图片
