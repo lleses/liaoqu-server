@@ -14,16 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.dlj.app.entity.Group;
 import cn.dlj.app.entity.GroupUserRelation;
-import cn.dlj.app.entity.MessageList;
 import cn.dlj.app.service.GroupService;
 import cn.dlj.app.service.GroupUserRelationService;
-import cn.dlj.app.service.MessageListService;
 import cn.dlj.utils.Config;
 import cn.dlj.utils.FileUtils;
-import cn.dlj.utils.IdUtils;
 import cn.dlj.utils.ParamUtils;
 import cn.dlj.utils.StringUtils;
-import cn.dlj.utils.Tool;
 
 @RequestMapping("app/group")
 @Controller
@@ -32,9 +28,8 @@ public class GroupController {
 	@Autowired
 	private GroupService groupService;
 	@Autowired
-	private MessageListService msgListService;
-	@Autowired
 	private GroupUserRelationService groupUserRelationService;
+	
 	public static final String GROUP_IMG_UPLOAD_PATH = Config.get("group.img.upload.path");
 
 	/**
@@ -52,7 +47,7 @@ public class GroupController {
 
 		String headImg = "defaultGroupHeadImg.jpg";
 		if (imgbasc64 != null && !"".equals(imgbasc64)) {
-			headImg = FileUtils.imgbasc64(imgbasc64, GROUP_IMG_UPLOAD_PATH);//basc64转成图片文件
+			headImg = FileUtils.imgbasc64(imgbasc64, GROUP_IMG_UPLOAD_PATH);// basc64转成图片文件
 		}
 
 		Group group = new Group();
@@ -66,6 +61,32 @@ public class GroupController {
 		groupUserRelation.setUserId(userId);
 		groupUserRelation.setAddTime(new Date());
 		groupUserRelationService.add(groupUserRelation);
+		
+		//邀请好友
+		String fIdsStr = ParamUtils.getStr(request, "fIds");
+		if(fIdsStr != null) {
+			fIdsStr = fIdsStr.substring(0, fIdsStr.length() - 1);
+			String[] fIds = fIdsStr.split(",");
+			groupService.inviteFriends(fIds, groupId);
+		}
+
+		map.put("succ", "1");
+		return StringUtils.json(map);
+	}
+
+	/**
+	 * 邀请好友
+	 */
+	@RequestMapping("invite_friends")
+	@ResponseBody
+	public String inviteFriends(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		Integer groupId = ParamUtils.getInt(request, "groupId");
+		String userIds = ParamUtils.getStr(request, "userIds");
+		userIds = userIds.substring(0, userIds.length() - 1);
+		String[] fIds = userIds.split(",");
+		groupService.inviteFriends(fIds, groupId);
 
 		map.put("succ", "1");
 		return StringUtils.json(map);
@@ -103,48 +124,6 @@ public class GroupController {
 	}
 
 	/**
-	 * 邀请好友
-	 */
-	@RequestMapping("invite_friends")
-	@ResponseBody
-	public String inviteFriends(HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		Integer groupId = ParamUtils.getInt(request, "groupId");
-		String userIds = ParamUtils.getStr(request, "userIds");
-		userIds = userIds.substring(0, userIds.length() - 1);
-
-		String[] split = userIds.split(",");
-		for (String fId : split) {
-			Integer friendId = Integer.valueOf(fId);
-			//检查是否存在
-			GroupUserRelation group = groupUserRelationService.findByUserIdAndGroupId(friendId, groupId);
-			if (group == null) {
-				GroupUserRelation groupUserRelation = new GroupUserRelation();
-				groupUserRelation.setGroupId(groupId);
-				groupUserRelation.setUserId(friendId);
-				groupUserRelation.setAddTime(new Date());
-				groupUserRelationService.add(groupUserRelation);
-				
-				MessageList msgList = msgListService.findByUserIdAndGroupId(friendId, groupId);
-				if (msgList == null) {
-					msgList = new MessageList();
-					msgList.setUserId(friendId);
-					msgList.setGroupId(groupId);
-					msgList.setContent("欢迎你加入了群聊");
-					msgList.setLastTime(new Date());
-					msgList.setContentEncrypt(Tool.md5Encode(IdUtils.id32()));
-					msgList.setType(2);
-					msgList.setNum(1);
-					msgListService.add(msgList);
-				}
-			}
-		}
-		map.put("succ", "1");
-		return StringUtils.json(map);
-	}
-
-	/**
 	 * 搜索群组
 	 */
 	@RequestMapping("searchGroup")
@@ -158,10 +137,10 @@ public class GroupController {
 			map.put("succ", "-1");
 			return StringUtils.json(map);
 		}
-		String status = "0";//未加入
+		String status = "0";// 未加入
 		GroupUserRelation groupUserRelation = groupUserRelationService.findByUserIdAndGroupId(userId, groupId);
 		if (groupUserRelation != null) {
-			status = "1";//已加入
+			status = "1";// 已加入
 		}
 		map.put("succ", "1");
 		map.put("data", group);

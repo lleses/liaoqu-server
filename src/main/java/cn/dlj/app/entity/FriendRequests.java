@@ -24,42 +24,42 @@ public class FriendRequests {
 	transient private String friendHeadImg;
 
 	/**
-	 * 
+	 * ID
 	 */
 	public Integer getId() {
 		return id;
 	}
 
 	/**
-	 * 
+	 * ID
 	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	/**
-	 * 
+	 * 用户ID
 	 */
 	public Integer getUserId() {
 		return userId;
 	}
 
 	/**
-	 * 
+	 * 用户ID
 	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
 	/**
-	 * 
+	 * 好友ID
 	 */
 	public Integer getFriendId() {
 		return friendId;
 	}
 
 	/**
-	 * 
+	 * 好友ID
 	 */
 	public void setFriendId(Integer friendId) {
 		this.friendId = friendId;
@@ -80,14 +80,14 @@ public class FriendRequests {
 	}
 
 	/**
-	 * 
+	 * 申请时间
 	 */
 	public Date getAddTime() {
 		return addTime;
 	}
 
 	/**
-	 * 
+	 * 申请时间
 	 */
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
@@ -108,14 +108,14 @@ public class FriendRequests {
 	}
 
 	/**
-	 * 
+	 * 好友头像
 	 */
 	public String getFriendHeadImg() {
 		return friendHeadImg;
 	}
 
 	/**
-	 * 
+	 * 好友头像
 	 */
 	public void setFriendHeadImg(String friendHeadImg) {
 		this.friendHeadImg = friendHeadImg;

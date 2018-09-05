@@ -18,6 +18,8 @@ public class GroupUserRelation {
 
 	/** 群用户名称 **/
 	transient private String groupUserName;
+	/** 群用户签名 **/
+	transient private String groupUserSignature;
 
 	/**
 	 * 
@@ -87,6 +89,14 @@ public class GroupUserRelation {
 	 */
 	public void setGroupUserName(String groupUserName) {
 		this.groupUserName = groupUserName;
+	}
+
+	public String getGroupUserSignature() {
+		return groupUserSignature;
+	}
+
+	public void setGroupUserSignature(String groupUserSignature) {
+		this.groupUserSignature = groupUserSignature;
 	}
 
 }

@@ -182,7 +182,12 @@ public class FileUtils {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+	}
+	
+	
+	public static void main(String[] args) {
+		String path = "/Users/didi/java/liaoqu/第二版/材料/分类图标/菜单/msg_handle.png";
+		zoomImage(320, 568, path);
 	}
 
 }
