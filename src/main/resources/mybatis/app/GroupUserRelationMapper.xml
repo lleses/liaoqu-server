@@ -24,11 +24,12 @@
 	
 	<select id="findByGroupId" resultType="cn.dlj.app.entity.GroupUserRelation">
 		select
-				r.id 					as "id",
+				r.id 							as "id",
 				r.groupId 				as "groupId",
-				r.userId 				as "userId",
+				r.userId 					as "userId",
 				r.addTime 				as "addTime",
-				u.name	 				as "groupUserName"
+				u.name	 				as "groupUserName",
+				u.signature				as "groupUserSignature"
 		from t_group_user_relation r
 		left join t_user u on u.id = r.userId
 		<where>
